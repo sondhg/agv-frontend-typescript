@@ -1,35 +1,11 @@
+import {
+  Agv,
+  AgvResponse,
+  LoginResponse,
+  Order,
+  RegisterResponse,
+} from "@/types/types";
 import axios from "../utils/axiosCustomize"; //axios này là hàm instance, cách đặt tên ko quan trọng
-
-interface Order {
-  order_id: number;
-  order_date: string;
-  start_time: string;
-  start_point: number;
-  end_point: number;
-  load_name: string;
-  load_weight: number;
-  load_amount: number;
-}
-
-interface Agv {
-  agv_id: number;
-  max_battery: number;
-  max_load: number;
-  max_speed: number;
-  guidance_type: string;
-}
-
-interface LoginResponse {
-  jwt: string;
-  email: string;
-  name: string;
-}
-
-interface RegisterResponse {
-  id: number;
-  name: string;
-  email: string;
-}
 
 const postCreateOrder = (order: Order) => {
   return axios.post("/orders/", order);
@@ -79,8 +55,8 @@ const getAllAGVs = () => {
   return axios.get("/agvs/");
 };
 
-const postCreateAGV = (agv: Agv) => {
-  return axios.post("/agvs/", agv);
+const postCreateAGV = async (agv: Agv): Promise<AgvResponse> => {
+  return await axios.post("/agvs/", agv);
 };
 
 const deleteAGV = (agvId: number) => {
@@ -88,22 +64,14 @@ const deleteAGV = (agvId: number) => {
 };
 
 export {
-  // orders
-  getAllOrders,
-  deleteOrder,
-  postCreateOrder,
-  putUpdateOrder,
-
-  // users
-  postLogin,
-  postRegister,
-  postLogout,
-
-  // schedules
-  getAllSchedules,
-
+  deleteAGV, deleteOrder,
   // AGVs
   getAllAGVs,
-  postCreateAGV,
-  deleteAGV,
+  // orders
+  getAllOrders,
+  // schedules
+  getAllSchedules, postCreateAGV, postCreateOrder,
+  // users
+  postLogin, postLogout, postRegister, putUpdateOrder
 };
+

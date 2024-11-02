@@ -10,6 +10,7 @@ import {
   SidebarRail,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { useAuth } from "@/hooks/useAuth";
 import {
   CalendarDays,
   Car,
@@ -24,16 +25,9 @@ import {
   University,
   UserPlus,
 } from "lucide-react";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store";
 
 // This is sample data.
 const data = {
-  // user: {
-  //   name: "shadcn",
-  //   email: "m@example.com",
-  //   avatar: "/avatars/shadcn.jpg",
-  // },
   teams: [
     {
       name: "iPAC Lab",
@@ -59,8 +53,8 @@ const data = {
           icon: CircleGauge,
         },
         {
-          title: "Manage Orders",
-          url: "/admin/manage-orders",
+          title: "Orders",
+          url: "/admin/orders",
           icon: ListOrdered,
         },
         {
@@ -108,10 +102,7 @@ const data = {
 };
 
 export function AppSidebar({ ...props }) {
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.user.isAuthenticated,
-  );
-  const user = useSelector((state: RootState) => state.user.account);
+  const { account, isAuthenticated } = useAuth();
 
   return (
     <Sidebar collapsible="icon" {...props}>
@@ -122,12 +113,11 @@ export function AppSidebar({ ...props }) {
       <SidebarContent>
         <NavMain items={data.navMain} />
         <NavSettings settings={data.settings} />
-        {/* <ModeToggle /> */}
       </SidebarContent>
       {/* Conditionally render SidebarFooter based on authentication */}
-      {isAuthenticated && user && (
+      {isAuthenticated && account && (
         <SidebarFooter>
-          <NavUser user={user} />
+          <NavUser account={account} />
         </SidebarFooter>
       )}
       <SidebarRail />

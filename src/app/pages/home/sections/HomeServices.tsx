@@ -37,7 +37,7 @@ export function HomeServices() {
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-3">
-            <AccordionTrigger>Manage Orders</AccordionTrigger>
+            <AccordionTrigger>Orders</AccordionTrigger>
             <AccordionContent>
               Create orders - form inputs containing instructions for AGVs to
               operate on. Orders can be updated or removed.

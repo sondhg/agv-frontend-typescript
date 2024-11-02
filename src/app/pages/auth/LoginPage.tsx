@@ -1,7 +1,7 @@
 import { LoginForm } from "@/components/login-form";
 import { ModeToggle } from "@/components/mode-toggle";
 
-export function Login() {
+export function LoginPage() {
   return (
     <div className="flex h-screen flex-col items-center justify-center space-y-3">
       <ModeToggle />

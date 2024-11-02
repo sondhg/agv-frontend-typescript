@@ -15,12 +15,18 @@ import {
 } from "@/components/ui/sidebar";
 import { Outlet } from "react-router-dom";
 
-export default function Layout() {
-  const currentUrl = window.location.href;
-  const [protocol, rest] = currentUrl.split("//");
-  const [host, ...pathParts] = rest.split("/");
-  const path = pathParts.join("/");
+// This is just for the header breadcrumb display.
+const currentUrl = window.location.href;
+const [protocol, rest] = currentUrl.split("//");
+const [host, ...pathParts] = rest.split("/");
+const path = pathParts.join("/");
+const coloredPath = (
+  <span className="bg-gradient-to-r from-blue-500 to-green-500 bg-clip-text font-semibold text-transparent">
+    {path}
+  </span>
+);
 
+export default function Layout() {
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -37,8 +43,7 @@ export default function Layout() {
                 <BreadcrumbSeparator className="hidden md:block" />
                 <BreadcrumbItem>
                   <BreadcrumbPage>
-                    {protocol}//{host}/
-                    <span className="font-semibold text-blue-600">{path}</span>
+                    {protocol}//{host}/{coloredPath}
                   </BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
@@ -46,7 +51,7 @@ export default function Layout() {
           </div>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-          <Outlet /> {/* Renders the nested route */}
+          <Outlet /> {/* Renders the nested routes */}
         </div>
       </SidebarInset>
     </SidebarProvider>

@@ -1,6 +1,6 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,27 +15,24 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { RootState } from "@/redux/store";
 import { doLogout } from "@/redux/userSlice";
 import { postLogout } from "@/services/apiServices";
 import { ChevronsUpDown, LogOut } from "lucide-react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { Button } from "./ui/button";
 
 export function NavUser({
-  user,
+  account,
 }: {
-  user: {
+  account: {
     name: string;
     email: string;
     // avatar: string;
   };
 }) {
   const { isMobile } = useSidebar();
-
-  const account = useSelector((state: RootState) => state.user.account);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -61,14 +58,14 @@ export function NavUser({
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-lg">
-                {/* <AvatarImage src={user.avatar} alt={user.name} /> */}
+                {/* <AvatarImage src={account.avatar} alt={account.name} /> */}
                 <AvatarFallback className="rounded-lg">
-                  {user.name[0].toUpperCase()}
+                  {account.name[0].toUpperCase()}
                 </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-semibold">{user.name}</span>
-                <span className="truncate text-xs">{user.email}</span>
+                <span className="truncate font-semibold">{account.name}</span>
+                <span className="truncate text-xs">{account.email}</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
@@ -84,12 +81,12 @@ export function NavUser({
                 <Avatar className="h-8 w-8 rounded-lg">
                   {/* <AvatarImage src={user.avatar} alt={user.name} /> */}
                   <AvatarFallback className="rounded-lg">
-                    {user.name[0].toUpperCase()}
+                    {account.name[0].toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">{user.name}</span>
-                  <span className="truncate text-xs">{user.email}</span>
+                  <span className="truncate font-semibold">{account.name}</span>
+                  <span className="truncate text-xs">{account.email}</span>
                 </div>
               </div>
             </DropdownMenuLabel>
