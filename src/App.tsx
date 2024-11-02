@@ -1,35 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
+import { ErrorBoundary } from "react-error-boundary";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import { toast } from "sonner";
+import "./App.css";
+import { persistor, store } from "./redux/store";
+import { AllRoutes } from "./routes/AllRoutes";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const Fallback = ({ error }: { error: Error }) => (
+    <div role="alert">
+      <p>Something went wrong:</p>
+      <pre className="text-error">{error.message}</pre>
+      <pre>{error.stack}</pre>
+    </div>
+  );
+
+  const handleToast = () => {
+    toast.success("Hello world!");
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <ErrorBoundary FallbackComponent={Fallback}>
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+              <AllRoutes />
+              {/* <ModeToggle></ModeToggle>
+                <button onClick={() => handleToast()}>test</button> */}
+            </ThemeProvider>
+          </PersistGate>
+        </Provider>
+
+        <Toaster richColors theme="light" toastOptions={{}} />
+      </ErrorBoundary>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
