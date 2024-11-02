@@ -1,7 +1,13 @@
+import { LoginForm } from "@/components/login-form";
+import { ModeToggle } from "@/components/mode-toggle";
+
 export function Login() {
   return (
-    <div>
-      <h1>Login</h1>
+    <div className="flex h-screen flex-col items-center justify-center space-y-3">
+      <ModeToggle />
+      <div className="flex w-full items-center justify-center px-4">
+        <LoginForm />
+      </div>
     </div>
   );
 }

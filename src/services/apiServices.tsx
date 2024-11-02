@@ -19,6 +19,18 @@ interface Agv {
   guidance_type: string;
 }
 
+interface LoginResponse {
+  jwt: string;
+  email: string;
+  name: string;
+}
+
+interface RegisterResponse {
+  id: number;
+  name: string;
+  email: string;
+}
+
 const postCreateOrder = (order: Order) => {
   return axios.post("/orders/", order);
   // return axios.post("/orders", { order: order }); // ! cách này thêm key là order trước object
@@ -36,14 +48,18 @@ const deleteOrder = (orderId: number) => {
   return axios.delete(`/orders/${orderId}/`, { data: { order_id: orderId } });
 };
 
-const postLogin = (email: string, password: string) => {
-  return axios.post("/login", {
-    email,
-    password,
-  });
+const postLogin = async (
+  email: string,
+  password: string,
+): Promise<LoginResponse> => {
+  return await axios.post("/login", { email, password });
 };
 
-const postRegister = (email: string, password: string, name: string) => {
+const postRegister = async (
+  email: string,
+  password: string,
+  name: string,
+): Promise<RegisterResponse> => {
   return axios.post("/register", {
     email,
     password,

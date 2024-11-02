@@ -24,14 +24,16 @@ import {
   University,
   UserPlus,
 } from "lucide-react";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 // This is sample data.
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
+  // user: {
+  //   name: "shadcn",
+  //   email: "m@example.com",
+  //   avatar: "/avatars/shadcn.jpg",
+  // },
   teams: [
     {
       name: "iPAC Lab",
@@ -106,6 +108,11 @@ const data = {
 };
 
 export function AppSidebar({ ...props }) {
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.user.isAuthenticated,
+  );
+  const user = useSelector((state: RootState) => state.user.account);
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -117,9 +124,12 @@ export function AppSidebar({ ...props }) {
         <NavSettings settings={data.settings} />
         {/* <ModeToggle /> */}
       </SidebarContent>
-      <SidebarFooter>
-        <NavUser user={data.user} />
-      </SidebarFooter>
+      {/* Conditionally render SidebarFooter based on authentication */}
+      {isAuthenticated && user && (
+        <SidebarFooter>
+          <NavUser user={user} />
+        </SidebarFooter>
+      )}
       <SidebarRail />
     </Sidebar>
   );
