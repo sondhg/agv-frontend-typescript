@@ -21,7 +21,7 @@ export function SchedulesPage() {
       <div className="space-y-5">
         <h2 className="text-3xl font-bold">Schedules</h2>
         <Button onClick={fetchListSchedules}>Fetch Schedules</Button>
-        <TableSchedules listSchedules={listSchedules} />
+        <TableSchedules /* listSchedules={listSchedules} */ />
       </div>
     </div>
   );

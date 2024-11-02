@@ -1,50 +1,50 @@
 import {
-    Pagination,
-    PaginationContent,
-    PaginationItem,
-    PaginationNext,
-    PaginationPrevious,
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
 } from "@/components/ui/pagination";
 import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/table";
 import { useState } from "react";
+import { Schedule } from "@/types/types";
 
-// ! remove this line when /api/schedules is ready
-import { listSchedules } from "./dummyData";
+// Dummy data import
+import { listSchedules as dummySchedules } from "./dummyData";
 
-export function TableSchedules(props) {
-  // ! when /api/schedules is ready, uncomment this line and delete the dummy data import
-  // const { listSchedules } = props;
+interface TableSchedulesProps {
+  listSchedules?: Schedule[];
+}
 
+export function TableSchedules({
+  listSchedules = dummySchedules,
+}: TableSchedulesProps) {
   const [currentPage, setCurrentPage] = useState(1);
-  const ROWS_PER_PAGE = 5; // number of rows per page
+  const ROWS_PER_PAGE = 5;
+
+  // Ensure listSchedules is always an array
+  const scheduleData = Array.isArray(listSchedules) ? listSchedules : [];
+  const totalPages = Math.ceil(scheduleData.length / ROWS_PER_PAGE);
 
   const indexOfLastRow = currentPage * ROWS_PER_PAGE;
   const indexOfFirstRow = indexOfLastRow - ROWS_PER_PAGE;
-  const currentRows = listSchedules.slice(indexOfFirstRow, indexOfLastRow);
+  const currentRows = scheduleData.slice(indexOfFirstRow, indexOfLastRow);
 
-  const totalPages = Math.ceil(listSchedules.length / ROWS_PER_PAGE);
-
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
     }
   };
 
-  const handlePrevPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  //edit tableHeaders if you want more columns
-  const tableHeaders = [
+  const tableHeaders: { name: string; key: keyof Schedule }[] = [
     { name: "Schedule ID", key: "schedule_id" },
     { name: "Order ID", key: "order_id" },
     { name: "Order date", key: "order_date" },
@@ -74,8 +74,8 @@ export function TableSchedules(props) {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {Array.isArray(currentRows) && currentRows.length > 0 ? (
-              currentRows.map((item, index) => (
+            {currentRows.length > 0 ? (
+              currentRows.map((item: Schedule, index) => (
                 <TableRow key={index}>
                   {tableHeaders.map((header, cellIndex) => (
                     <TableCell
@@ -104,29 +104,40 @@ export function TableSchedules(props) {
         </Table>
       </div>
 
-      <Pagination className="absolute bottom-0 w-full">
+      <Pagination className="absolute bottom-0 mt-4 w-full">
         <PaginationContent>
           <PaginationItem>
-            <PaginationPrevious
-              onClick={handlePrevPage}
-              disabled={currentPage === 1}
-              className="cursor-pointer"
-            />
+            {/* Conditionally render the previous button */}
+            {currentPage > 1 && (
+              <PaginationPrevious
+                onClick={() => handlePageChange(currentPage - 1)}
+              />
+            )}
           </PaginationItem>
+
+          {/* Render page numbers */}
+          {Array.from({ length: totalPages }, (_, i) => (
+            <PaginationItem key={i + 1}>
+              <PaginationLink
+                href="#"
+                isActive={currentPage === i + 1}
+                onClick={() => handlePageChange(i + 1)}
+              >
+                {i + 1}
+              </PaginationLink>
+            </PaginationItem>
+          ))}
+
           <PaginationItem>
-            Page {currentPage} of {totalPages}
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationNext
-              onClick={handleNextPage}
-              disabled={currentPage === totalPages}
-              className="cursor-pointer"
-            />
+            {/* Conditionally render the next button */}
+            {currentPage < totalPages && (
+              <PaginationNext
+                onClick={() => handlePageChange(currentPage + 1)}
+              />
+            )}
           </PaginationItem>
         </PaginationContent>
       </Pagination>
     </div>
   );
 }
-
-
