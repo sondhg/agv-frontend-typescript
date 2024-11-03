@@ -1,8 +1,9 @@
+import { FormCreateOrder } from "./components/forms/FormCreateOrder";
+
 export function OrdersPage() {
   return (
     <div>
-      <h1>Orders</h1>
-      <p>Welcome to the orders page</p>
+      <FormCreateOrder />
     </div>
   );
 }

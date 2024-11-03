@@ -1,9 +1,9 @@
 import { ThemeProvider } from "@/components/theme-provider";
-import { Toaster } from "@/components/ui/sonner";
+import { Toaster as ToasterSonner } from "@/components/ui/sonner";
+import { Toaster as ToasterToast } from "@/components/ui/toaster";
 import { ErrorBoundary } from "react-error-boundary";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-import { toast } from "sonner";
 import "./App.css";
 import { persistor, store } from "./redux/store";
 import { AllRoutes } from "./routes/AllRoutes";
@@ -17,10 +17,6 @@ function App() {
     </div>
   );
 
-  const handleToast = () => {
-    toast.success("Hello world!");
-  };
-
   return (
     <>
       <ErrorBoundary FallbackComponent={Fallback}>
@@ -33,8 +29,9 @@ function App() {
             </ThemeProvider>
           </PersistGate>
         </Provider>
-
-        <Toaster richColors theme="light" toastOptions={{}} />
+        {/* Toasters at top level */}
+        <ToasterSonner richColors theme="light" toastOptions={{}} />
+        <ToasterToast />
       </ErrorBoundary>
     </>
   );

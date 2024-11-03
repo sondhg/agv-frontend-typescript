@@ -3,12 +3,13 @@ import {
   AgvResponse,
   LoginResponse,
   Order,
+  OrderResponse,
   RegisterResponse,
 } from "@/types/types";
 import axios from "../utils/axiosCustomize"; //axios này là hàm instance, cách đặt tên ko quan trọng
 
-const postCreateOrder = (order: Order) => {
-  return axios.post("/orders/", order);
+const postCreateOrder = async (order: Order): Promise<OrderResponse> => {
+  return await axios.post("/orders/", order);
   // return axios.post("/orders", { order: order }); // ! cách này thêm key là order trước object
 };
 
@@ -64,14 +65,19 @@ const deleteAGV = (agvId: number) => {
 };
 
 export {
-  deleteAGV, deleteOrder,
+  deleteAGV,
+  deleteOrder,
   // AGVs
   getAllAGVs,
   // orders
   getAllOrders,
   // schedules
-  getAllSchedules, postCreateAGV, postCreateOrder,
+  getAllSchedules,
+  postCreateAGV,
+  postCreateOrder,
   // users
-  postLogin, postLogout, postRegister, putUpdateOrder
+  postLogin,
+  postLogout,
+  postRegister,
+  putUpdateOrder,
 };
-

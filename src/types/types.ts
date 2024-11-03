@@ -1,4 +1,15 @@
 export interface Order {
+  order_id: string;
+  order_date: string;
+  start_time: string;
+  start_point: string;
+  end_point: string;
+  load_name: string;
+  load_weight: string;
+  load_amount: string;
+}
+
+export interface OrderResponse {
   order_id: number;
   order_date: string;
   start_time: string;
@@ -7,6 +18,7 @@ export interface Order {
   load_name: string;
   load_weight: number;
   load_amount: number;
+  error: string;
 }
 
 export interface Agv {
