@@ -12,7 +12,11 @@ import {
 import { FormCreateOrder } from "../forms/FormCreateOrder";
 import { useState } from "react";
 
-export function DialogCreateOrder() {
+interface DialogCreateOrderProps {
+  fetchListOrders: () => void;
+}
+
+export function DialogCreateOrder({ fetchListOrders }: DialogCreateOrderProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClose = () => {
@@ -31,7 +35,11 @@ export function DialogCreateOrder() {
           <DialogDescription>Add inputs for your AGV here.</DialogDescription>
         </DialogHeader>
         <div className="grid gap-6 py-4">
-          <FormCreateOrder onClose={handleClose} /> {/* Pass handleClose */}
+          <FormCreateOrder
+            onClose={handleClose}
+            fetchListOrders={fetchListOrders}
+          />{" "}
+          {/* Pass handleClose and fetchListOrders */}
         </div>
         <DialogFooter>
           <DialogClose asChild>

@@ -76,9 +76,13 @@ const FormSchema = z.object({
 
 interface FormCreateOrderProps {
   onClose: () => void; // Accept a prop to close the dialog
+  fetchListOrders: () => void;
 }
 
-export function FormCreateOrder({ onClose }: FormCreateOrderProps) {
+export function FormCreateOrder({
+  onClose,
+  fetchListOrders,
+}: FormCreateOrderProps) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -94,8 +98,8 @@ export function FormCreateOrder({ onClose }: FormCreateOrderProps) {
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    // Convert order_date to MM/dd/yyyy format before logging or processing
-    const formattedDate = format(data.order_date, "MM/dd/yyyy");
+    // Convert order_date to dd/MM/yyyy format before logging or processing
+    const formattedDate = format(data.order_date, "dd/MM/yyyy");
     const submittedData = {
       ...data,
       order_date: formattedDate, // Replace the Date object with the formatted string
@@ -103,9 +107,11 @@ export function FormCreateOrder({ onClose }: FormCreateOrderProps) {
     console.log("Form submitted:", submittedData); // Check if this logs
     try {
       const response = await postCreateOrder(submittedData);
+      fetchListOrders(); // Refresh the orders list
       console.log("Order created successfully:", response);
+      onClose(); // Close the dialog on successful submission
       toast({
-        title: "Order created successfully",
+        title: "Order sent to server!",
         description: (
           <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
             <code className="text-white">
@@ -114,7 +120,6 @@ export function FormCreateOrder({ onClose }: FormCreateOrderProps) {
           </pre>
         ),
       });
-      onClose(); // Close the dialog on successful submission
     } catch (error) {
       console.error("Error creating order:", error);
       toast({
@@ -176,18 +181,18 @@ export function FormCreateOrder({ onClose }: FormCreateOrderProps) {
                           !field.value && "text-muted-foreground",
                         )}
                       >
-                        {/* Dù chọn kiểu nào thì data khi submit vẫn là string dạng MM/dd/yyyy */}
+                        {/* Dù chọn kiểu nào thì data khi submit vẫn là string dạng dd/MM/yyyy */}
                         {/* Nếu muốn hiện kiểu 11/31/2021 thì sử dụng toLocaleDateString */}
 
                         {/* {field.value ? (
-                          // Format the date as MM/dd/yyyy
+                          // Format the date as dd/MM/yyyy
                           field.value.toLocaleDateString("en-US", {
                             month: "2-digit",
                             day: "2-digit",
                             year: "numeric",
                           })
                         ) : (
-                          <span>Pick a date in format MM/dd/yyyy</span>
+                          <span>Pick a date in format dd/MM/yyyy</span>
                         )} */}
 
                         {/* Nếu muốn hiện kiểu November 1, 2021 thì sử dụng format(field.value, "PPP") */}
@@ -213,7 +218,7 @@ export function FormCreateOrder({ onClose }: FormCreateOrderProps) {
                   </PopoverContent>
                 </Popover>
                 <FormDescription>
-                  Date (MM/dd/yyyy) you expect AGVs to perform this order.
+                  Date (dd/MM/yyyy) you expect AGVs to perform this order.
                 </FormDescription>
                 <FormMessage />
               </FormItem>

@@ -15,13 +15,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useState } from "react";
-import { Schedule } from "@/types/types";
+import { ISchedule } from "@/types/types";
 
 // Dummy data import
 import { listSchedules as dummySchedules } from "./dummyData";
 
 interface TableSchedulesProps {
-  listSchedules?: Schedule[];
+  listSchedules?: ISchedule[];
 }
 
 export function TableSchedules({
@@ -44,7 +44,7 @@ export function TableSchedules({
     }
   };
 
-  const tableHeaders: { name: string; key: keyof Schedule }[] = [
+  const tableHeaders: { name: string; key: keyof ISchedule }[] = [
     { name: "Schedule ID", key: "schedule_id" },
     { name: "Order ID", key: "order_id" },
     { name: "Order date", key: "order_date" },
@@ -75,7 +75,7 @@ export function TableSchedules({
           </TableHeader>
           <TableBody>
             {currentRows.length > 0 ? (
-              currentRows.map((item: Schedule, index) => (
+              currentRows.map((item: ISchedule, index) => (
                 <TableRow key={index}>
                   {tableHeaders.map((header, cellIndex) => (
                     <TableCell

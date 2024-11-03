@@ -55,14 +55,14 @@ export function FormAGVs(props: FormAGVsProps) {
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
     // Call the postCreateAGV function and pass the form values
-    const res = await postCreateAGV(values);
-    if (res && !res.error) {
-      console.log("Added AGV:", res);
+    const response = await postCreateAGV(values);
+    if (response && !response.error) {
+      console.log("Added AGV:", response);
       toast.success("Added AGV to team!");
       await fetchListAGVs();
     } else {
-      console.error("Failed to add AGV:", res.error);
-      toast.error(res.error);
+      console.error("Failed to add AGV:", response.error);
+      toast.error(response.error);
     }
   }
 

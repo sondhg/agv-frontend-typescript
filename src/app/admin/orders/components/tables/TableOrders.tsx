@@ -1,5 +1,7 @@
 "use client";
 
+// ? to change column used for filtering, ctrf+f and search for "order_date" and change it based on your liking
+
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -23,21 +25,23 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { DataTablePagination } from "./data-table-pagination";
-import { DataTableViewOptions } from "./data-table-view-options";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  filterSearchByColumn: string;
-  onSelectionChange?: (selectedIds: number[]) => void; // New prop for selection change
 }
 
-export function DataTable<TData extends { order_id: number }, TValue>({
+export function DataTable<TData, TValue>({
   columns,
   data,
-  filterSearchByColumn,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -52,6 +56,12 @@ export function DataTable<TData extends { order_id: number }, TValue>({
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    // * Hard-code the page size (rows per page) here
+    initialState: {
+      pagination: {
+        pageSize: 5, // Fixed page size
+      },
+    },
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
@@ -70,20 +80,41 @@ export function DataTable<TData extends { order_id: number }, TValue>({
     <div>
       <div className="flex items-center py-4">
         <Input
-          placeholder={`Filter by ${filterSearchByColumn}...`}
+          placeholder="Filter order_date..."
           value={
-            (table
-              .getColumn(filterSearchByColumn)
-              ?.getFilterValue() as string) ?? ""
+            (table.getColumn("order_date")?.getFilterValue() as string) ?? ""
           }
           onChange={(event) =>
-            table
-              .getColumn(filterSearchByColumn)
-              ?.setFilterValue(event.target.value)
+            table.getColumn("order_date")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
-        <DataTableViewOptions table={table} />
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="ml-auto">
+              Columns
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            {table
+              .getAllColumns()
+              .filter((column) => column.getCanHide())
+              .map((column) => {
+                return (
+                  <DropdownMenuCheckboxItem
+                    key={column.id}
+                    // className="capitalize"
+                    checked={column.getIsVisible()}
+                    onCheckedChange={(value) =>
+                      column.toggleVisibility(!!value)
+                    }
+                  >
+                    {column.id}
+                  </DropdownMenuCheckboxItem>
+                );
+              })}
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
       <div className="rounded-md border">
         <Table>
@@ -136,8 +167,29 @@ export function DataTable<TData extends { order_id: number }, TValue>({
         </Table>
       </div>
 
-      <div className="py-4">
-        <DataTablePagination table={table} />
+      <div className="flex items-center justify-end space-x-2 py-4">
+        {/* Show number of selected rows per paginated page */}
+        <div className="flex-1 text-sm text-muted-foreground">
+          {table.getFilteredSelectedRowModel().rows.length} of{" "}
+          {table.getFilteredRowModel().rows.length} row(s) selected.
+        </div>
+        {/* Pagination buttons */}
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => table.previousPage()}
+          disabled={!table.getCanPreviousPage()}
+        >
+          Previous
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => table.nextPage()}
+          disabled={!table.getCanNextPage()}
+        >
+          Next
+        </Button>
       </div>
     </div>
   );

@@ -38,8 +38,8 @@ export function NavUser({
   const navigate = useNavigate();
 
   const handleLogOut = async () => {
-    const res = await postLogout(account.email, account.refresh_token);
-    if (res) {
+    const response = await postLogout(account.email, account.refresh_token);
+    if (response) {
       dispatch(doLogout());
       localStorage.clear("jwt");
       navigate("/login");

@@ -1,4 +1,4 @@
-export interface Order {
+export interface IOrder {
   order_id: string;
   order_date: string;
   start_time: string;
@@ -9,7 +9,7 @@ export interface Order {
   load_amount: string;
 }
 
-export interface OrderResponse {
+export interface IOrderResponse {
   order_id: number;
   order_date: string;
   start_time: string;
@@ -21,7 +21,7 @@ export interface OrderResponse {
   error: string;
 }
 
-export interface Agv {
+export interface IAgv {
   agv_id: string;
   max_battery: string;
   max_load: string;
@@ -29,7 +29,7 @@ export interface Agv {
   guidance_type: string;
 }
 
-export interface AgvResponse {
+export interface IAgvResponse {
   agv_id: number;
   max_battery: number;
   max_load: number;
@@ -38,19 +38,19 @@ export interface AgvResponse {
   error: string;
 }
 
-export interface LoginResponse {
+export interface ILoginResponse {
   jwt: string;
   email: string;
   name: string;
 }
 
-export interface RegisterResponse {
+export interface IRegisterResponse {
   id: number;
   name: string;
   email: string;
 }
 
-export interface Schedule {
+export interface ISchedule {
   schedule_id: number;
   order_id: number;
   order_date: string;
