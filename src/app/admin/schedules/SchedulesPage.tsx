@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
-import { getAllSchedules } from "../../../../services/apiServices";
+import { getAllSchedules } from "../../../services/apiServices";
 import { TableSchedules } from "./components/TableSchedules";
 
 export function SchedulesPage() {

@@ -1,15 +1,15 @@
 import Layout from "@/app/layout";
-import { AGVsPage } from "@/app/pages/admin/AGVs/AGVsPage";
-import { LoginPage } from "@/app/pages/auth/LoginPage";
-import { RegisterPage } from "@/app/pages/auth/RegisterPage";
-import { HomePage } from "@/app/pages/home/HomePage";
+import { AGVsPage } from "@/app/admin/AGVs/AGVsPage";
+import { LoginPage } from "@/app/auth/LoginPage";
+import { RegisterPage } from "@/app/auth/RegisterPage";
+import { HomePage } from "@/app/home/HomePage";
 import { Suspense } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { NotFound } from "./NotFound";
 import { PrivateRoute } from "./PrivateRoute";
-import { SchedulesPage } from "@/app/pages/admin/schedules/SchedulesPage";
-import { DashboardPage } from "@/app/pages/admin/dashboard/DashboardPage";
-import { OrdersPage } from "@/app/pages/admin/orders/OrdersPage";
+import { SchedulesPage } from "@/app/admin/schedules/SchedulesPage";
+import { DashboardPage } from "@/app/admin/dashboard/DashboardPage";
+import { OrdersPage } from "@/app/admin/orders/page";
 
 export function AllRoutes() {
   return (

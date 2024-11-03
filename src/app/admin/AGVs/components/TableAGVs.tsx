@@ -14,7 +14,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { toast } from "sonner";
-import { deleteAGV } from "../../../../../services/apiServices";
+import { deleteAGV } from "../../../../services/apiServices";
 
 interface TableAGVsProps {
   listAGVs: Array<{

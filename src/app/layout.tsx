@@ -13,20 +13,27 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { Outlet } from "react-router-dom";
-
-// This is just for the header breadcrumb display.
-const currentUrl = window.location.href;
-const [protocol, rest] = currentUrl.split("//");
-const [host, ...pathParts] = rest.split("/");
-const path = pathParts.join("/");
-const coloredPath = (
-  <span className="bg-gradient-to-r from-blue-500 to-green-500 bg-clip-text font-semibold text-transparent">
-    {path}
-  </span>
-);
+import { useEffect, useState } from "react";
+import { Outlet, useLocation } from "react-router-dom";
 
 export default function Layout() {
+  const location = useLocation(); // Get the current location
+  const [currentUrl, setCurrentUrl] = useState(window.location.href);
+
+  useEffect(() => {
+    // Update the URL whenever location changes
+    setCurrentUrl(window.location.href);
+  }, [location]);
+
+  const [protocol, rest] = currentUrl.split("//");
+  const [host, ...pathParts] = rest.split("/");
+  const path = pathParts.join("/");
+  const coloredPath = (
+    <span className="bg-gradient-to-r from-blue-500 to-green-500 bg-clip-text font-semibold text-transparent">
+      {path}
+    </span>
+  );
+
   return (
     <SidebarProvider>
       <AppSidebar />
