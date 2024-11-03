@@ -1,5 +1,5 @@
 import Layout from "@/app/layout";
-import { AGVsPage } from "@/app/admin/AGVs/AGVsPage";
+import { PageAGVs } from "@/app/admin/AGVs/PageAGVs";
 import { LoginPage } from "@/app/auth/LoginPage";
 import { RegisterPage } from "@/app/auth/RegisterPage";
 import { HomePage } from "@/app/home/HomePage";
@@ -7,9 +7,9 @@ import { Suspense } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { NotFound } from "./NotFound";
 import { PrivateRoute } from "./PrivateRoute";
-import { SchedulesPage } from "@/app/admin/schedules/SchedulesPage";
+import { PageSchedules } from "@/app/admin/schedules/PageSchedules";
 import { DashboardPage } from "@/app/admin/dashboard/DashboardPage";
-import { OrdersPage } from "@/app/admin/orders/page";
+import { PageOrders } from "@/app/admin/orders/PageOrders";
 
 export function AllRoutes() {
   return (
@@ -20,9 +20,9 @@ export function AllRoutes() {
           <Route element={<Layout />}>
             <Route path="/home" element={<HomePage />} />
             <Route path="/admin" element={<PrivateRoute />}>
-              <Route path="agvs" element={<AGVsPage />} />
-              <Route path="orders" element={<OrdersPage />} />
-              <Route path="schedules" element={<SchedulesPage />} />
+              <Route path="agvs" element={<PageAGVs />} />
+              <Route path="orders" element={<PageOrders />} />
+              <Route path="schedules" element={<PageSchedules />} />
               <Route path="dashboard" element={<DashboardPage />} />
             </Route>
           </Route>

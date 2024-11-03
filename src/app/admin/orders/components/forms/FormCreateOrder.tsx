@@ -66,13 +66,31 @@ const FormSchema = z.object({
   start_point: z.string().min(1).max(2),
   end_point: z.string().min(1).max(2),
   load_name: z.string().min(1),
-  load_amount: z.string().min(1).max(3),
+  load_amount: z
+    .string()
+    .regex(/^\d*$/, "Load amount must contain only numerical characters.")
+    .min(1)
+    .max(3),
   load_weight: z.string().min(1),
 });
 
-export function FormCreateOrder() {
+interface FormCreateOrderProps {
+  onClose: () => void; // Accept a prop to close the dialog
+}
+
+export function FormCreateOrder({ onClose }: FormCreateOrderProps) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
+    defaultValues: {
+      order_id: "",
+      order_date: undefined,
+      start_time: "",
+      start_point: "",
+      end_point: "",
+      load_name: "",
+      load_amount: "",
+      load_weight: "",
+    },
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
@@ -96,6 +114,7 @@ export function FormCreateOrder() {
           </pre>
         ),
       });
+      onClose(); // Close the dialog on successful submission
     } catch (error) {
       console.error("Error creating order:", error);
       toast({
@@ -124,7 +143,7 @@ export function FormCreateOrder() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
+        <div className="grid gap-4 md:grid-cols-4">
           <FormField
             control={form.control}
             name="order_id"
@@ -345,8 +364,8 @@ export function FormCreateOrder() {
               </FormItem>
             )}
           />
-          <Button type="submit">Submit</Button>
         </div>
+        <Button type="submit">Submit</Button>
       </form>
     </Form>
   );

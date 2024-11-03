@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { getAllSchedules } from "../../../services/apiServices";
 import { TableSchedules } from "./components/TableSchedules";
 
-export function SchedulesPage() {
+export function PageSchedules() {
   const [listSchedules, setListSchedules] = useState([]);
 
   const fetchListSchedules = async () => {

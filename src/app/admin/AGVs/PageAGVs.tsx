@@ -3,7 +3,7 @@ import { getAllAGVs } from "../../../services/apiServices";
 import { FormAGVs } from "./components/FormAGVs";
 import { TableAGVs } from "./components/TableAGVs";
 
-export function AGVsPage() {
+export function PageAGVs() {
   const [listAGVs, setListAGVs] = useState([]);
 
   const fetchListAGVs = async () => {

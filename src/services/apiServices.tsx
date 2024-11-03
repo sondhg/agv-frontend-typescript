@@ -65,19 +65,19 @@ const deleteAGV = (agvId: number) => {
 };
 
 export {
-  deleteAGV,
-  deleteOrder,
   // AGVs
+  deleteAGV,
   getAllAGVs,
   // orders
+  deleteOrder,
   getAllOrders,
-  // schedules
-  getAllSchedules,
   postCreateAGV,
   postCreateOrder,
+  putUpdateOrder,
+  // schedules
+  getAllSchedules,
   // users
   postLogin,
   postLogout,
   postRegister,
-  putUpdateOrder,
 };
