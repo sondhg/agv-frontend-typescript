@@ -1,6 +1,6 @@
 # AGV Control Web App (ReactJS Frontend)
 
-> GUI: graphical user interface (the frontend app)
+> GUI: graphical user interface
 
 ## Clone my code
 
@@ -18,7 +18,7 @@ cd agv-frontend-typescript
 npm i
 ```
 
-## Run the App
+## Run the app
 
 **IMPORTANT**: Since I can't use Hoang Anh's server yet, I wrote a backend Django server. Please use it, otherwise the app won't work.
 

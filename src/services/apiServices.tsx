@@ -71,10 +71,9 @@ const postRegister = async (
 
 const postLogout = async (
   email: string,
-  refresh_token: string,
-): Promise<void> => {
+): Promise<{ message?: string; detail?: string }> => {
   try {
-    await axios.post("/logout", { email, refresh_token }); // Awaiting the axios call
+    return await axios.post("/logout", { email }); // Awaiting the axios call
   } catch (error) {
     console.error("Error logging out:", error);
     throw error;

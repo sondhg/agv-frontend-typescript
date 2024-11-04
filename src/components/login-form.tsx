@@ -53,11 +53,9 @@ export function LoginForm() {
         dispatch(doLogin(response));
         navigate("/");
         toast.success("Login successful");
-      } else {
-        toast.error("Login failed");
       }
     } catch (error) {
-      toast.error("An error occurred during login. Please try again.");
+      toast.error(error.detail);
       console.error("Login error:", error);
     } finally {
       setIsLoading(false);

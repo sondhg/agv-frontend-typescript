@@ -38,13 +38,20 @@ export function NavUser({
   const navigate = useNavigate();
 
   const handleLogOut = async () => {
-    const response = await postLogout(account.email, account.refresh_token);
-    if (response) {
-      dispatch(doLogout());
-      localStorage.clear("jwt");
-      navigate("/login");
-    } else {
+    try {
+      const response: { message?: string; detail?: string } | void =
+        await postLogout(account.email);
+      if (response && response.message === "success") {
+        dispatch(doLogout());
+        localStorage.removeItem("jwt");
+        navigate("/login");
+        toast.success(response.message);
+      } else {
+        toast.error(response.detail);
+      }
+    } catch (error) {
       toast.error("Error, cannot log out");
+      console.error("Error logging out:", error);
     }
   };
 
