@@ -1,50 +1,59 @@
-# React + TypeScript + Vite
+# AGV Control Web App (ReactJS Frontend)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> GUI: graphical user interface (the frontend app)
 
-Currently, two official plugins are available:
+## Clone my code
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```bash
+git clone https://github.com/sondhg/agv-frontend-typescript.git
+cd agv-frontend-typescript
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Required installations
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+1. **NodeJS**: [Download here](https://nodejs.org/en).
+2. **Dependency libraries**
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```bash
+npm i
 ```
+
+## Run the App
+
+**IMPORTANT**: Since I can't use Hoang Anh's server yet, I wrote a backend Django server. Please use it, otherwise the app won't work.
+
+- **Run GUI**:
+
+```bash
+npm run dev
+o
+```
+
+The command `o` means "open", it will redirect you to [http://localhost:5173](http://localhost:5173). Here you see the GUI.
+
+- **Run Django Server**: Clone and follow the README instructions in my [my-django-server](https://github.com/sondhg/my-django-server) repo to have a PostgreSQL database at port 5432 and a Django server at port 8000 like I do.
+
+## Using the GUI
+
+1. Use the sidebar to navigate between pages.
+2. Must login to access ADMIN pages (Orders, AGVs, Schedules, Dashboard)
+
+## Important files
+
+Use `Ctrl+P` in VSCode to search for these files.
+
+- API functions and configs
+
+  - `apiServices.tsx`
+  - `axiosCustomize.tsx`
+
+- **WebSocket for live data** (testing with Binance API):
+  - Files in `src/app/admin/dashboard` folder
+  - WebSocket URL: wss://stream.binance.com:9443/ws/btcusdt@aggTrade
+
+## Learning resources
+
+- [React Hook YouTube Playlist](https://www.youtube.com/playlist?list=PLncHg6Kn2JT7QbvdNNAmQZLqWchnJEoH5)
+- [React Hook PDF](https://drive.google.com/drive/folders/1WYAyusS4m498bqCR8iyzRYmS26zGh8g-)
+- [shadcn/ui](https://ui.shadcn.com/)
+- [Tailwind CSS](https://tailwindcss.com/)
