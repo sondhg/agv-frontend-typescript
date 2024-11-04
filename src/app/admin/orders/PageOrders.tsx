@@ -2,8 +2,8 @@ import { deleteOrder, getAllOrders } from "@/services/apiServices";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { DataTable } from "../../../components/ui/data-table";
-import { DialogCreateOrder } from "./components/dialogs/DialogCreateOrder";
-import { columns, Order } from "./components/tables/columns";
+import { DialogCreateOrder } from "./components/DialogCreateOrder";
+import { columns, Order } from "./components/columns";
 
 export function PageOrders() {
   const [listOrders, setListOrders] = useState<Order[]>([]);

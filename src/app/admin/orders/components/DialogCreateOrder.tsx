@@ -9,7 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { FormCreateOrder } from "../forms/FormCreateOrder";
+import { FormCreateOrder } from "./FormCreateOrder";
 import { useState } from "react";
 
 interface DialogCreateOrderProps {
