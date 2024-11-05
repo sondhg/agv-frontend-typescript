@@ -14,12 +14,15 @@ import { useAuth } from "@/hooks/useAuth";
 import {
   CalendarDays,
   Car,
+  ChartLine,
   CircleGauge,
   FlaskConical,
+  GalleryThumbnails,
   House,
   ListOrdered,
   LogIn,
   Navigation,
+  PlaneLanding,
   Settings,
   Undo2,
   University,
@@ -72,7 +75,7 @@ const data = {
     {
       title: "Landing pages",
       url: "#",
-      icon: Undo2,
+      icon: PlaneLanding,
       items: [
         {
           title: "Home",
@@ -88,6 +91,18 @@ const data = {
           title: "Register",
           url: "/register",
           icon: UserPlus,
+        },
+      ],
+    },
+    {
+      title: "Demo pages",
+      url: "#",
+      icon: GalleryThumbnails,
+      items: [
+        {
+          title: "Demo",
+          url: "/demo",
+          icon: ChartLine,
         },
       ],
     },

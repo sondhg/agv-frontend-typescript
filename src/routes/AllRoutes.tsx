@@ -1,15 +1,16 @@
-import Layout from "@/app/layout";
 import { PageAGVs } from "@/app/admin/AGVs/PageAGVs";
+import { PageDashboard } from "@/app/admin/dashboard/PageDashboard";
+import { PageOrders } from "@/app/admin/orders/PageOrders";
+import { PageSchedules } from "@/app/admin/schedules/PageSchedules";
 import { LoginPage } from "@/app/auth/LoginPage";
 import { RegisterPage } from "@/app/auth/RegisterPage";
+import { PageDemo } from "@/app/demo/PageDemo";
 import { HomePage } from "@/app/home/HomePage";
+import Layout from "@/app/layout";
 import { Suspense } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { NotFound } from "./NotFound";
 import { PrivateRoute } from "./PrivateRoute";
-import { PageSchedules } from "@/app/admin/schedules/PageSchedules";
-import { DashboardPage } from "@/app/admin/dashboard/DashboardPage";
-import { PageOrders } from "@/app/admin/orders/PageOrders";
 
 export function AllRoutes() {
   return (
@@ -19,11 +20,12 @@ export function AllRoutes() {
           {/* Routes that require Layout with sidebar */}
           <Route element={<Layout />}>
             <Route path="/home" element={<HomePage />} />
+            <Route path="/demo" element={<PageDemo />} />
             <Route path="/admin" element={<PrivateRoute />}>
               <Route path="agvs" element={<PageAGVs />} />
               <Route path="orders" element={<PageOrders />} />
               <Route path="schedules" element={<PageSchedules />} />
-              <Route path="dashboard" element={<DashboardPage />} />
+              <Route path="dashboard" element={<PageDashboard />} />
             </Route>
           </Route>
 
