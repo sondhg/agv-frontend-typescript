@@ -1,6 +1,6 @@
 import Papa from "papaparse";
 import { toast } from "sonner";
-import { postCreateOrder } from "./apiServices";
+import { createOrder } from "./apiServices";
 
 const handleImportCSV = (
   event,
@@ -58,7 +58,7 @@ const handleImportCSV = (
               const handleSubmitFileToAPI = async () => {
                 try {
                   result.forEach(async (item) => {
-                    let response = await postCreateOrder(item);
+                    let response = await createOrder(item);
                     if (response) {
                       await fetchListOrders();
                     }

@@ -1,4 +1,4 @@
-import { deleteOrder, getAllOrders } from "@/services/apiServices";
+import { deleteOrder, getOrders } from "@/services/apiServices";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { DataTable } from "../../../components/ui/data-table";
@@ -9,7 +9,7 @@ export function PageOrders() {
   const [listOrders, setListOrders] = useState<Order[]>([]);
 
   const fetchListOrders = async () => {
-    const data = await getAllOrders();
+    const data = await getOrders();
     setListOrders(data);
   };
 

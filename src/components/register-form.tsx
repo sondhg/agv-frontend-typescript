@@ -66,8 +66,10 @@ export function RegisterForm() {
 
     setIsLoading(true);
 
+    const registerInfo = { email: email.trim(), password, name };
+
     try {
-      const response = await postRegister(email.trim(), password, name);
+      const response = await postRegister(registerInfo);
       if (response && response.email) {
         toast.success("Registration successful");
         navigate("/login");

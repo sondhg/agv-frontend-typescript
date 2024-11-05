@@ -1,132 +1,101 @@
+import { AGV, CreateAGVDto } from "@/types/AGV.types";
+import { Schedule } from "@/types/Schedule.types";
 import {
-  IAgv,
-  IAgvResponse,
-  ILoginResponse,
-  IOrder,
-  IOrderResponse,
-  IRegisterResponse,
-} from "@/types/types";
-import axios from "../utils/axiosCustomize";
+  CreateLoginDto,
+  CreateLogoutDto,
+  CreateRegisterDto,
+  LoginResponse,
+  LogoutResponse,
+  RegisterResponse,
+} from "../types/Auth.types";
+import { CreateOrderDto, Order } from "../types/Order.types";
+import api from "../utils/axiosCustomize";
 
-const postCreateOrder = async (order: IOrder): Promise<IOrderResponse> => {
-  try {
-    return await axios.post("/orders/", order); // Awaiting the axios call
-  } catch (error) {
-    console.error("Error creating order:", error);
-    throw error;
-  }
+const ORDERS_URL = "/orders/";
+
+const LOGIN_URL = "/login";
+
+const REGISTER_URL = "/register";
+
+const LOGOUT_URL = "/logout";
+
+const SCHEDULES_URL = "/schedules/";
+
+const AGVS_URL = "/agvs/";
+
+const getOrders = async (): Promise<Order[]> => {
+  const { data } = await api.get(ORDERS_URL);
+  return data;
 };
 
-const getAllOrders = async (): Promise<IOrderResponse[]> => {
-  try {
-    return await axios.get("/orders/"); // Awaiting the axios call
-  } catch (error) {
-    console.error("Error fetching orders:", error);
-    throw error;
-  }
+const createOrder = async (order: CreateOrderDto): Promise<Order> => {
+  // const response = await api.post(URL, order);
+  // const { data } = response;
+  const { data } = await api.post(ORDERS_URL, order); // 2 dòng bên trên tương đương với dòng này
+  return data;
 };
 
-const putUpdateOrder = async (order: IOrder): Promise<IOrderResponse> => {
-  try {
-    return await axios.put(`/orders/${order.order_id}/`, order); // Awaiting the axios call
-  } catch (error) {
-    console.error("Error updating order:", error);
-    throw error;
-  }
+const updateOrder = async (
+  order_id: number,
+  order: CreateOrderDto,
+): Promise<Order> => {
+  const { data } = await api.put(`${ORDERS_URL}${order_id}/`, order);
+  return data;
 };
 
-const deleteOrder = async (orderId: number): Promise<void> => {
-  try {
-    await axios.delete(`/orders/${orderId}/`); // Awaiting the axios call
-  } catch (error) {
-    console.error("Error deleting order:", error);
-    throw error;
-  }
+const deleteOrder = async (order_id: number) => {
+  return api.delete(`${ORDERS_URL}${order_id}/`); // vì URL là /orders/ đã có dấu gạch ở cuối nên trong này ko để dấu gạch vào giữa như là `${URL}/${order_id}`
 };
 
-const postLogin = async (
-  email: string,
-  password: string,
-): Promise<ILoginResponse> => {
-  try {
-    return await axios.post("/login", { email, password }); // Awaiting the axios call
-  } catch (error) {
-    console.error("Error logging in:", error);
-    throw error;
-  }
+const postLogin = async (loginInfo: CreateLoginDto): Promise<LoginResponse> => {
+  const { data } = await api.post(LOGIN_URL, loginInfo);
+  return data;
 };
 
 const postRegister = async (
-  email: string,
-  password: string,
-  name: string,
-): Promise<IRegisterResponse> => {
-  try {
-    return await axios.post("/register", { email, password, name }); // Awaiting the axios call
-  } catch (error) {
-    console.error("Error registering user:", error);
-    throw error;
-  }
+  registerInfo: CreateRegisterDto,
+): Promise<RegisterResponse> => {
+  const { data } = await api.post(REGISTER_URL, registerInfo);
+  return data;
 };
 
 const postLogout = async (
-  email: string,
-): Promise<{ message?: string; detail?: string }> => {
-  try {
-    return await axios.post("/logout", { email }); // Awaiting the axios call
-  } catch (error) {
-    console.error("Error logging out:", error);
-    throw error;
-  }
+  logoutInfo: CreateLogoutDto,
+): Promise<LogoutResponse> => {
+  const { data } = await api.post(LOGOUT_URL, logoutInfo);
+  return data;
 };
 
-const getAllSchedules = async (): Promise<unknown> => {
-  // Adding a return type
-  try {
-    return await axios.get("/schedules/"); // Awaiting the axios call
-  } catch (error) {
-    console.error("Error fetching schedules:", error);
-    throw error;
-  }
+const getSchedules = async (): Promise<Schedule> => {
+  const { data } = await api.get(SCHEDULES_URL);
+  return data;
 };
 
-const getAllAGVs = async (): Promise<IAgvResponse[]> => {
-  try {
-    return await axios.get("/agvs/"); // Awaiting the axios call
-  } catch (error) {
-    console.error("Error fetching AGVs:", error);
-    throw error;
-  }
+const getAGVs = async (): Promise<AGV[]> => {
+  const { data } = await api.get(AGVS_URL);
+  return data;
 };
 
-const postCreateAGV = async (agv: IAgv): Promise<IAgvResponse> => {
-  try {
-    return await axios.post("/agvs/", agv); // Awaiting the axios call
-  } catch (error) {
-    console.error("Error creating AGV:", error);
-    throw error;
-  }
+const postCreateAGV = async (agv: CreateAGVDto): Promise<AGV> => {
+  const { data } = await api.post(AGVS_URL, agv);
+  return data;
 };
 
-const deleteAGV = async (agvId: number): Promise<void> => {
-  try {
-    await axios.delete(`/agvs/${agvId}/`); // Awaiting the axios call
-  } catch (error) {
-    console.error("Error deleting AGV:", error);
-    throw error;
-  }
+const deleteAGV = async (agv_id: number): Promise<void> => {
+  const { data } = await api.delete(`${AGVS_URL}${agv_id}/`);
+  return data;
 };
 
 export {
+  createOrder,
   deleteAGV,
-  getAllAGVs,
   deleteOrder,
-  getAllOrders,
+  getAGVs,
+  getOrders,
+  getSchedules,
   postCreateAGV,
-  postCreateOrder,
-  putUpdateOrder,
-  getAllSchedules,
   postLogin,
   postLogout,
   postRegister,
+  updateOrder,
 };

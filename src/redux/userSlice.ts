@@ -2,9 +2,8 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface AccountState {
   jwt: string;
-  // refresh_token: string;
+  refresh_token: string;
   name: string;
-  // role: string;
   email: string;
 }
 
@@ -16,9 +15,8 @@ interface UserState {
 const initialState: UserState = {
   account: {
     jwt: "",
-    // refresh_token: "",
+    refresh_token: "",
     name: "",
-    // role: "",
     email: "",
   },
   isAuthenticated: false,
@@ -35,9 +33,8 @@ const userSlice = createSlice({
     doLogout(state) {
       state.account = {
         jwt: "",
-        // refresh_token: "",
+        refresh_token: "",
         name: "",
-        // role: "",
         email: "",
       };
       state.isAuthenticated = false;

@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
-import { postCreateOrder } from "@/services/apiServices";
+import { createOrder } from "@/services/apiServices";
 import { endPoints, loadNames, startPoints } from "@/utils/arraysUsedOften";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CalendarIcon } from "@radix-ui/react-icons";
@@ -52,7 +52,7 @@ const weightMapping: { [key: string]: number } = loadNames.reduce(
 //     Iron: 3
 // }
 
-const FormSchema = z.object({
+const formSchema = z.object({
   order_id: z.string().min(1).max(3).regex(/^\d+$/, "Order ID must be numeric"),
   order_date: z.date({
     required_error: "Must select a date.",
@@ -83,8 +83,8 @@ export function FormCreateOrder({
   onClose,
   fetchListOrders,
 }: FormCreateOrderProps) {
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
       order_id: "",
       order_date: undefined,
@@ -97,7 +97,7 @@ export function FormCreateOrder({
     },
   });
 
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
+  async function onSubmit(data: z.infer<typeof formSchema>) {
     // Convert order_date to dd/MM/yyyy format before logging or processing
     const formattedDate = format(data.order_date, "dd/MM/yyyy");
     const submittedData = {
@@ -106,7 +106,7 @@ export function FormCreateOrder({
     };
     console.log("Form submitted:", submittedData); // Check if this logs
     try {
-      const response = await postCreateOrder(submittedData);
+      const response = await createOrder(submittedData);
       fetchListOrders(); // Refresh the orders list
       console.log("Order created successfully:", response);
       onClose(); // Close the dialog on successful submission

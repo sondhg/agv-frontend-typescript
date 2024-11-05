@@ -29,7 +29,7 @@ export function NavUser({
   account: {
     name: string;
     email: string;
-    // avatar: string;
+    refresh_token: string;
   };
 }) {
   const { isMobile } = useSidebar();
@@ -37,17 +37,22 @@ export function NavUser({
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const logoutInfo = {
+    email: account.email,
+    refresh_token: account.refresh_token,
+  };
+
   const handleLogOut = async () => {
     try {
-      const response: { message?: string; detail?: string } | void =
-        await postLogout(account.email);
-      if (response && response.message === "success") {
+      const data: { message?: string; detail?: string } | void =
+        await postLogout(logoutInfo);
+      if (data && data.message) {
         dispatch(doLogout());
         localStorage.removeItem("jwt");
         navigate("/login");
-        toast.success(response.message);
+        toast.success(data.message);
       } else {
-        toast.error(response.detail);
+        toast.error(data.detail);
       }
     } catch (error) {
       toast.error("Error, cannot log out");

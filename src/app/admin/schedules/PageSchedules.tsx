@@ -1,13 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
-import { getAllSchedules } from "../../../services/apiServices";
+import { getSchedules } from "../../../services/apiServices";
 import { TableSchedules } from "./components/TableSchedules";
 
 export function PageSchedules() {
   const [listSchedules, setListSchedules] = useState([]);
 
   const fetchListSchedules = async () => {
-    let response = await getAllSchedules();
+    let response = await getSchedules();
     console.log(">>> response: ", response);
     setListSchedules(response);
   };

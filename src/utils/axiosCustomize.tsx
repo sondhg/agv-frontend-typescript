@@ -1,7 +1,7 @@
 import axios from "axios";
 import { store } from "../redux/store";
 
-const instance = axios.create({
+const api = axios.create({
   baseURL: "http://localhost:8000/api",
   headers: {
     "content-type": "application/json",
@@ -9,7 +9,7 @@ const instance = axios.create({
 });
 
 // Add a request interceptor
-instance.interceptors.request.use(
+api.interceptors.request.use(
   (config) => {
     const jwt = store?.getState()?.user?.account?.jwt;
     if (jwt) {
@@ -21,7 +21,7 @@ instance.interceptors.request.use(
 );
 
 // Add a response interceptor
-instance.interceptors.response.use(
+api.interceptors.response.use(
   (response) => response?.data ?? response,
   (error) => {
     if (error?.response?.data) {
@@ -31,4 +31,4 @@ instance.interceptors.response.use(
   },
 );
 
-export default instance;
+export default api;

@@ -47,10 +47,12 @@ export function LoginForm() {
 
     setIsLoading(true);
 
+    const loginInfo = { email: email.trim(), password: password };
+
     try {
-      const response = await postLogin(email.trim(), password);
-      if (response && response.jwt) {
-        dispatch(doLogin(response));
+      const data = await postLogin(loginInfo);
+      if (data && data.jwt) {
+        dispatch(doLogin(data));
         navigate("/");
         toast.success("Login successful");
       }
