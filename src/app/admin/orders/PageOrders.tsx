@@ -1,11 +1,14 @@
-import { deleteOrder, getOrders } from "@/services/apiServices";
+import { DataTable } from "@/components/ui/data-table";
+import { Order } from "@/types/Order.types";
 import { useEffect, useState } from "react";
+import { FormOrder } from "./components/FormOrder";
+import { columns } from "./components/columns";
+import { deleteOrder, getOrders } from "@/services/apiServices";
 import { toast } from "sonner";
-import { DataTable } from "../../../components/ui/data-table";
-import { DialogCreateOrder } from "./components/DialogCreateOrder";
-import { columns, Order } from "./components/columns";
 
 export function PageOrders() {
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [listOrders, setListOrders] = useState<Order[]>([]);
 
   const fetchListOrders = async () => {
@@ -26,18 +29,26 @@ export function PageOrders() {
   useEffect(() => {
     fetchListOrders();
   }, []);
-
   return (
-    <div className="space-y-5">
-      <h2 className="text-3xl font-bold">Orders</h2>
-      <DialogCreateOrder fetchListOrders={fetchListOrders} />
-      <div className="container mx-auto py-10">
+    <>
+      <div className="space-y-5">
+        <h2 className="text-3xl font-bold">Orders</h2>
+        <FormOrder
+          isOpen={isDialogOpen}
+          order={selectedOrder}
+          onOpenChange={(value) => {
+            setIsDialogOpen(value);
+            if (!value) {
+              setSelectedOrder(null);
+            }
+          }}
+        />
         <DataTable
-          columns={columns(handleDeleteOrder)} // Pass handleDeleteOrder to columns
           data={listOrders}
+          columns={columns(handleDeleteOrder)}
           filterSearchByColumn="order_date"
         />
       </div>
-    </div>
+    </>
   );
 }

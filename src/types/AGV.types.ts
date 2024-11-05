@@ -20,11 +20,13 @@ export const CreateAGVZod = z.object({
 export type CreateAGVDto = z.infer<typeof CreateAGVZod>;
 
 export interface AGV {
-  agv_id: number;
-  guidance_type: string;
-  max_battery: number;
-  max_load: number;
-  max_speed: number;
-  is_connected: boolean;
-  is_active: boolean;
+  agv_id?: number;
+  guidance_type?: string;
+  max_battery?: number;
+  max_load?: number;
+  max_speed?: number;
+  is_connected?: boolean;
+  is_active?: boolean;
+  is_busy?: boolean;
+  error?: string;
 }

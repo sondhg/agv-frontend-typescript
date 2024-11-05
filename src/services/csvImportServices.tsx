@@ -58,8 +58,8 @@ const handleImportCSV = (
               const handleSubmitFileToAPI = async () => {
                 try {
                   result.forEach(async (item) => {
-                    let response = await createOrder(item);
-                    if (response) {
+                    let data = await createOrder(item);
+                    if (data) {
                       await fetchListOrders();
                     }
                   });

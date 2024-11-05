@@ -7,6 +7,9 @@ import { PersistGate } from "redux-persist/integration/react";
 import "./App.css";
 import { persistor, store } from "./redux/store";
 import { AllRoutes } from "./routes/AllRoutes";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 function App() {
   const Fallback = ({ error }: { error: Error }) => (
@@ -23,9 +26,9 @@ function App() {
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
             <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-              <AllRoutes />
-              {/* <ModeToggle></ModeToggle>
-                <button onClick={() => handleToast()}>test</button> */}
+              <QueryClientProvider client={queryClient}>
+                <AllRoutes />
+              </QueryClientProvider>
             </ThemeProvider>
           </PersistGate>
         </Provider>

@@ -20,15 +20,15 @@ api.interceptors.request.use(
   (error) => Promise.reject(error),
 );
 
-// Add a response interceptor
-api.interceptors.response.use(
-  (response) => response?.data ?? response,
-  (error) => {
-    if (error?.response?.data) {
-      return Promise.reject(error.response.data);
-    }
-    return Promise.reject(error);
-  },
-);
+// // Add a response interceptor
+// api.interceptors.response.use(
+//   (response) => response?.data ?? response,
+//   (error) => {
+//     if (error?.response?.data) {
+//       return Promise.reject(error.response.data);
+//     }
+//     return Promise.reject(error);
+//   },
+// );
 
 export default api;

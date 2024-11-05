@@ -5,28 +5,8 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { DataTableColumnHeader } from "@/components/ui/data-table-column-header";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { DropdownMenuSeparator } from "@radix-ui/react-dropdown-menu";
-import { MoreHorizontal } from "lucide-react";
-
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
-export type Order = {
-  order_id: number;
-  order_date: string;
-  start_time: string;
-  start_point: number;
-  end_point: number;
-  load_name: string;
-  load_amount: number;
-  load_weight: number;
-};
+import { Order } from "@/types/Order.types";
+import { Trash2 } from "lucide-react";
 
 export const columns = (
   handleDeleteOrder: (orderId: number) => void,
@@ -117,28 +97,12 @@ export const columns = (
       const order = row.original;
 
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() =>
-                navigator.clipboard.writeText(order.order_date.toString())
-              }
-            >
-              Copy order_date
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => handleDeleteOrder(order.order_id)}>
-              Delete order
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <Button
+          variant={"destructive"}
+          onClick={() => handleDeleteOrder(order.order_id)}
+        >
+          <Trash2 />
+        </Button>
       );
     },
   },

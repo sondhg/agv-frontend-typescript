@@ -60,8 +60,8 @@ export function FormAGVs(props: FormAGVsProps) {
       console.log("Added AGV:", data);
       toast.success("Added AGV to team!");
       await fetchListAGVs();
-    } else {
-      console.error("Failed to add AGV:", data.error);
+    } else if (data && data.error) {
+      console.log("Failed to add AGV:", data.error);
       toast.error(data.error);
     }
   }

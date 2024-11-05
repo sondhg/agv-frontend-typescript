@@ -7,9 +7,9 @@ export function PageSchedules() {
   const [listSchedules, setListSchedules] = useState([]);
 
   const fetchListSchedules = async () => {
-    let response = await getSchedules();
-    console.log(">>> response: ", response);
-    setListSchedules(response);
+    let data = await getSchedules();
+    console.log(">>> data: ", data);
+    setListSchedules(data);
   };
 
   useEffect(() => {

@@ -7,9 +7,9 @@ export function PageAGVs() {
   const [listAGVs, setListAGVs] = useState([]);
 
   const fetchListAGVs = async () => {
-    const response = await getAGVs();
-    console.log(">>> response: ", response);
-    setListAGVs(response);
+    const data = await getAGVs();
+    console.log(">>> data: ", data);
+    setListAGVs(data);
   };
 
   useEffect(() => {

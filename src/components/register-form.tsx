@@ -69,8 +69,8 @@ export function RegisterForm() {
     const registerInfo = { email: email.trim(), password, name };
 
     try {
-      const response = await postRegister(registerInfo);
-      if (response && response.email) {
+      const data = await postRegister(registerInfo);
+      if (data && data.email) {
         toast.success("Registration successful");
         navigate("/login");
       } else {

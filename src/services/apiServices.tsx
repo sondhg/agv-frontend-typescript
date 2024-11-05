@@ -44,7 +44,7 @@ const updateOrder = async (
 };
 
 const deleteOrder = async (order_id: number) => {
-  return api.delete(`${ORDERS_URL}${order_id}/`); // vì URL là /orders/ đã có dấu gạch ở cuối nên trong này ko để dấu gạch vào giữa như là `${URL}/${order_id}`
+  await api.delete(`${ORDERS_URL}${order_id}/`); // vì URL là /orders/ đã có dấu gạch ở cuối nên trong này ko để dấu gạch vào giữa như là `${URL}/${order_id}`
 };
 
 const postLogin = async (loginInfo: CreateLoginDto): Promise<LoginResponse> => {
@@ -82,8 +82,7 @@ const postCreateAGV = async (agv: CreateAGVDto): Promise<AGV> => {
 };
 
 const deleteAGV = async (agv_id: number): Promise<void> => {
-  const { data } = await api.delete(`${AGVS_URL}${agv_id}/`);
-  return data;
+  await api.delete(`${AGVS_URL}${agv_id}/`);
 };
 
 export {
