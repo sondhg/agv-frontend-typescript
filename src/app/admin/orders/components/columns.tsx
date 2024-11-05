@@ -9,7 +9,7 @@ import { Order } from "@/types/Order.types";
 import { Trash2 } from "lucide-react";
 
 export const columns = (
-  handleDeleteOrder: (orderId: number) => void,
+  handleClickBtnDelete: (orderId: number) => void,
 ): ColumnDef<Order>[] => [
   {
     id: "select",
@@ -99,7 +99,7 @@ export const columns = (
       return (
         <Button
           variant={"destructive"}
-          onClick={() => handleDeleteOrder(order.order_id)}
+          onClick={() => handleClickBtnDelete(order.order_id)}
         >
           <Trash2 />
         </Button>

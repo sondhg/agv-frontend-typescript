@@ -6,7 +6,6 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -26,10 +25,10 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { createOrder } from "@/services/apiServices";
-import { queryKeys } from "@/services/queryKey.factory";
-import { CreateOrderDto, Order } from "@/types/Order.types";
+import { CreateOrderDto } from "@/types/Order.types";
 import { loadNames } from "@/utils/arraysUsedOften";
 import {
   convertDateToString,
@@ -52,12 +51,9 @@ import {
 } from "@/utils/conversionUtils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CalendarIcon } from "@radix-ui/react-icons";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
-import { Loader2 } from "lucide-react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { z } from "zod";
 
 // Generate weight mapping dynamically
@@ -114,13 +110,17 @@ const formSchema = z.object({
 });
 
 interface FormOrderProps {
-  isOpen: boolean;
-  onOpenChange: (value: boolean) => void;
-  order: Order | null;
+  isDialogOpen: boolean;
+  setIsDialogOpen: (value: boolean) => void;
+  fetchListOrders: () => void;
 }
 
-export function FormOrder({ isOpen, onOpenChange, order }: FormOrderProps) {
-  const queryClient = useQueryClient();
+export function DialogCreateOrders({
+  isDialogOpen,
+  setIsDialogOpen,
+  fetchListOrders,
+}: FormOrderProps) {
+  const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -137,51 +137,7 @@ export function FormOrder({ isOpen, onOpenChange, order }: FormOrderProps) {
     mode: "onChange",
   });
 
-  const onCreateSuccess = async (newOrder: Order) => {
-    await queryClient.setQueryData(
-      queryKeys.fetchOrders.all,
-      (oldData?: Order[]) => {
-        if (oldData) {
-          return [...oldData, newOrder];
-        }
-        return [newOrder];
-      },
-    );
-    toast.success("Order created successfully");
-    onOpenChange(false);
-  };
-
-  const onRequestError = () => {
-    toast.error("Request failed");
-  };
-
-  const createMutation = useMutation({
-    mutationFn: createOrder,
-    onSuccess: onCreateSuccess,
-    onError: onRequestError,
-  });
-
-  useEffect(() => {
-    if (order) {
-      form.reset({
-        order_id: order.order_id.toString(),
-        order_date:
-          typeof order.order_date === "string"
-            ? new Date(order.order_date)
-            : order.order_date,
-        start_time: order.start_time,
-        start_point: order.start_point.toString(),
-        end_point: order.end_point.toString(),
-        load_name: order.load_name,
-        load_amount: order.load_amount.toString(),
-        load_weight: order.load_weight.toString(),
-      });
-    } else {
-      form.reset();
-    }
-  }, [order, form]);
-
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     const createDto: CreateOrderDto = {
       order_id: convertStringToNumber(values.order_id),
       order_date: convertDateToString(values.order_date),
@@ -192,8 +148,30 @@ export function FormOrder({ isOpen, onOpenChange, order }: FormOrderProps) {
       load_amount: convertStringToNumber(values.load_amount),
       load_weight: convertStringToNumber(values.load_weight),
     };
-    if (!order) {
-      createMutation.mutate(createDto);
+
+    try {
+      const data = await createOrder(createDto);
+      if (data) {
+        console.log("data", data);
+        toast({
+          title: "Order created successfully",
+          description: (
+            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+              <code className="text-white">
+                {JSON.stringify(data, null, 2)}
+              </code>
+            </pre>
+          ),
+        });
+        fetchListOrders();
+        setIsDialogOpen(false);
+      }
+    } catch (error) {
+      console.log("Error creating order:", error);
+      toast({
+        title: "Order creation failed",
+        description: "That order_id already exist.",
+      });
     }
   }
 
@@ -214,15 +192,13 @@ export function FormOrder({ isOpen, onOpenChange, order }: FormOrderProps) {
   }, [loadName, loadAmount, setValue]);
 
   return (
-    <Dialog open={isOpen} onOpenChange={onOpenChange}>
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
         <Button variant="default">Create order</Button>
       </DialogTrigger>
       <DialogContent className="max-h-[80vh] min-w-[80vw] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>
-            {order ? "Update existing order" : "Create new order"}
-          </DialogTitle>
+          <DialogTitle>Create new order</DialogTitle>
           <DialogDescription>Add inputs for your AGV here.</DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -402,17 +378,9 @@ export function FormOrder({ isOpen, onOpenChange, order }: FormOrderProps) {
                 )}
               />
             </div>
-            <DialogFooter>
-              <Button
-                type="submit"
-                disabled={!form.formState.isValid || createMutation.isPending}
-              >
-                {createMutation.isPending && (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                )}
-                Confirm
-              </Button>
-            </DialogFooter>
+            <Button type="submit" disabled={!form.formState.isValid}>
+              Confirm
+            </Button>
           </form>
         </Form>
       </DialogContent>

@@ -34,7 +34,7 @@ interface DataTableProps<TData, TValue> {
   onSelectionChange?: (selectedIds: number[]) => void; // New prop for selection change
 }
 
-export function DataTable<TData extends { order_id: number }, TValue>({
+export function DataTable<TData /* extends { order_id: number } */, TValue>({
   columns,
   data,
   filterSearchByColumn,
