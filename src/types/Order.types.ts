@@ -25,7 +25,7 @@ export const CreateOrderZod = z.object({
   ),
   start_time: z.string(),
   order_date: z.preprocess(
-    (order_date) => format(order_date as Date, "MM/dd/yyyy"),
+    (order_date) => format(order_date as Date, "yyyy-MM-dd"),
     z.string(),
   ),
 });
