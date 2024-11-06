@@ -1,13 +1,14 @@
 import { format } from "date-fns";
+import { startPoints, endPoints } from "./arraysUsedOften";
 
 export const MAX_LOAD_AMOUNT_VALUE = 50;
 export const MIN_LOAD_AMOUNT_VALUE = 0;
 
-export const MIN_START_POINT_VALUE = 1;
-export const MAX_START_POINT_VALUE = 4;
+export const MIN_START_POINT_VALUE = startPoints[0];
+export const MAX_START_POINT_VALUE = startPoints[startPoints.length - 1];
 
-export const MIN_END_POINT_VALUE = 10;
-export const MAX_END_POINT_VALUE = 15;
+export const MIN_END_POINT_VALUE = endPoints[0];
+export const MAX_END_POINT_VALUE = endPoints[endPoints.length - 1];
 
 export const MIN_LOAD_WEIGHT_VALUE = 0;
 export const MAX_LOAD_WEIGHT_VALUE = 100;
@@ -20,7 +21,7 @@ export const convertStringToNumber = (amount: string): number =>
   parseFloat(amount.replace(",", "."));
 
 export const convertDateToString = (date: Date): string =>
-  format(date, "MM/dd/yyyy");
+  format(date, "yyyy-MM-dd");
 
 export const isLoadAmountWithinRange = (load_amount: number): boolean =>
   MIN_LOAD_AMOUNT_VALUE <= load_amount && load_amount <= MAX_LOAD_AMOUNT_VALUE;
