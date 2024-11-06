@@ -77,7 +77,7 @@ const data = {
       items: [
         {
           title: "Home",
-          url: "/",
+          url: "/home",
           icon: House,
         },
         {
