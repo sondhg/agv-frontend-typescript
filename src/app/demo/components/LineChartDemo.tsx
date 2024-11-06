@@ -10,15 +10,41 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
-export const description = "A multiple line chart";
+const genRandom = (base: number) => {
+  return Math.round(Math.random() * base);
+};
 
 const chartData = [
-  { timestamp: "16:00:00", agv1: 186, agv2: 80 },
-  { timestamp: "16:00:02", agv1: 305, agv2: 200 },
-  { timestamp: "16:00:04", agv1: 237, agv2: 120 },
-  { timestamp: "16:00:06", agv1: 73, agv2: 190 },
-  { timestamp: "16:00:08", agv1: 209, agv2: 130 },
-  { timestamp: "16:00:10", agv1: 214, agv2: 140 },
+  {
+    timestamp: "16:00:00",
+    agv1: genRandom(186),
+    agv2: genRandom(80),
+  },
+  {
+    timestamp: "16:00:02",
+    agv1: genRandom(305),
+    agv2: genRandom(200),
+  },
+  {
+    timestamp: "16:00:04",
+    agv1: genRandom(237),
+    agv2: genRandom(120),
+  },
+  {
+    timestamp: "16:00:06",
+    agv1: genRandom(73),
+    agv2: genRandom(190),
+  },
+  {
+    timestamp: "16:00:08",
+    agv1: genRandom(209),
+    agv2: genRandom(130),
+  },
+  {
+    timestamp: "16:00:10",
+    agv1: genRandom(214),
+    agv2: genRandom(140),
+  },
 ];
 
 const chartConfig = {
