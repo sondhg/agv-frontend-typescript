@@ -15,7 +15,6 @@ import {
   CalendarDays,
   Car,
   ChartLine,
-  CircleGauge,
   FlaskConical,
   GalleryThumbnails,
   House,
@@ -52,7 +51,7 @@ const data = {
         {
           title: "Dashboard",
           url: "/admin/dashboard",
-          icon: CircleGauge,
+          icon: ChartLine,
         },
         {
           title: "Orders",
@@ -102,6 +101,11 @@ const data = {
           title: "Dashboard Demo",
           url: "/demo/dashboard-demo",
           icon: ChartLine,
+        },
+        {
+          title: "Schedules Demo",
+          url: "/demo/schedules-demo",
+          icon: CalendarDays,
         },
       ],
     },

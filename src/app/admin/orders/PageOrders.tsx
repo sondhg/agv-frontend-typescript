@@ -3,7 +3,7 @@ import { deleteOrder, getOrders } from "@/services/apiServices";
 import { Order } from "@/types/Order.types";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { columns } from "./components/columns";
+import { columns } from "./components/columnsTableOrders";
 import { DialogCreateOrders } from "./components/DialogCreateOrders";
 
 export function PageOrders() {
