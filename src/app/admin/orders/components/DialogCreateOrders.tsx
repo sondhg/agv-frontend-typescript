@@ -1,5 +1,6 @@
 "use client";
 
+import { startOfDay } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -29,7 +30,7 @@ import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { createOrder } from "@/services/apiServices";
 import { CreateOrderDto } from "@/types/Order.types";
-import { loadNames } from "@/utils/arraysUsedOften";
+import { loadNames, loadNamesEnum } from "@/utils/arraysUsedOften";
 import {
   convertDateToString,
   convertStringToNumber,
@@ -56,6 +57,8 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+// import { vi } from "date-fns/locale";
+
 // Generate weight mapping dynamically
 // Define the weightMapping with an explicit type
 const weightMapping: { [key: string]: number } = loadNames.reduce(
@@ -70,7 +73,7 @@ const formSchema = z.object({
   order_id: z
     .string()
     .min(1)
-    .regex(/^\d+$/, { message: "Order ID must be numeric" })
+    .regex(/^\d+$/, { message: "Must be integer" })
     .refine((value) => isOrderIdWithinRange(convertStringToNumber(value)), {
       message: `Number should be between ${MIN_ORDER_ID_VALUE} and ${MAX_ORDER_ID_VALUE}.`,
     }),
@@ -83,16 +86,23 @@ const formSchema = z.object({
   start_point: z
     .string()
     .min(1)
+    .regex(/^\d+$/, { message: "Must be integer" })
     .refine((value) => isStartPointWithinRange(convertStringToNumber(value)), {
       message: `Number should be between ${MIN_START_POINT_VALUE} and ${MAX_START_POINT_VALUE}.`,
     }),
   end_point: z
     .string()
     .min(1)
+    .regex(/^\d+$/, { message: "Must be integer" })
     .refine((value) => isEndPointWithinRange(convertStringToNumber(value)), {
       message: `Number should be between ${MIN_END_POINT_VALUE} and ${MAX_END_POINT_VALUE}.`,
     }),
-  load_name: z.string().min(1),
+  load_name: z
+    .string()
+    .transform((val) => val.toLowerCase())
+    .refine((val) => loadNamesEnum.includes(val), {
+      message: `Load name must be one of: ${loadNames.join(", ")}.`,
+    }),
   load_amount: z
     .string()
     .min(1)
@@ -144,7 +154,7 @@ export function DialogCreateOrders({
       start_time: values.start_time,
       start_point: convertStringToNumber(values.start_point),
       end_point: convertStringToNumber(values.end_point),
-      load_name: values.load_name,
+      load_name: values.load_name.toLowerCase(),
       load_amount: convertStringToNumber(values.load_amount),
       load_weight: convertStringToNumber(values.load_weight),
     };
@@ -184,7 +194,7 @@ export function DialogCreateOrders({
   useEffect(() => {
     // Parse load_amount as a number
     const amount = parseInt(loadAmount || "0", 10);
-    const weightPerUnit = weightMapping[loadName] || 0;
+    const weightPerUnit = weightMapping[loadName.toLowerCase()] || 0;
     const calculatedWeight = amount * weightPerUnit;
 
     // Update load_weight field
@@ -254,13 +264,13 @@ export function DialogCreateOrders({
                           selected={field.value}
                           onSelect={field.onChange}
                           // Disable past dates by setting the minimum date to today
-                          disabled={(date) => date < new Date()}
+                          disabled={(date) => date < startOfDay(new Date())}
                           initialFocus
                         />
                       </PopoverContent>
                     </Popover>
                     <FormDescription>
-                      Date (MM/dd/yyyy) you expect AGVs to perform this order.
+                      Date (yyyy-MM-dd) you expect AGVs to perform this order.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
