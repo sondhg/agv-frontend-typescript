@@ -1,17 +1,16 @@
 //from 1 to 15
-export const startPoints = Array.from({ length: 4 }, (_, index) =>
-  (index + 1).toString(),
-);
+export const startPoints = Array.from({ length: 4 }, (_, index) => index + 1);
 
 //from 10 to 15
-export const endPoints = Array.from({ length: 6 }, (_, index) =>
-  (index + 10).toString(),
-);
+export const endPoints = Array.from({ length: 6 }, (_, index) => index + 10);
 
-export const loadNames = ["Stone", "Cement", "Iron"];
+export const loadNames = ["stone", "wood", "iron"];
 
 export const agvIDs = Array.from({ length: 4 }, (_, index) =>
   (index + 1).toString(),
 );
 
 export const guidanceTypes = ["Line Following", "Computer Vision"];
+
+// Ensure loadNames is treated as a tuple with at least one string for enum validation in forms
+export const loadNamesEnum = loadNames as [string, ...string[]];
