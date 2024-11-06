@@ -24,7 +24,6 @@ import {
   Navigation,
   PlaneLanding,
   Settings,
-  Undo2,
   University,
   UserPlus,
 } from "lucide-react";
@@ -100,8 +99,8 @@ const data = {
       icon: GalleryThumbnails,
       items: [
         {
-          title: "Demo",
-          url: "/demo",
+          title: "Dashboard Demo",
+          url: "/demo/dashboard-demo",
           icon: ChartLine,
         },
       ],

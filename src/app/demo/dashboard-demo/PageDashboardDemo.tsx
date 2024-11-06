@@ -1,9 +1,10 @@
 import { LineChartDemo } from "./components/LineChartDemo";
-export function PageDemo() {
+
+export function PageDashboardDemo() {
   return (
     <div>
       <div className="space-y-5">
-        <h2 className="text-3xl font-bold">Demo</h2>
+        <h2 className="text-3xl font-bold">Dashboard Demo</h2>
         <LineChartDemo />
       </div>
     </div>
