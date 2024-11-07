@@ -1,92 +1,60 @@
+import { createMultipleOrdersBatch } from "@/services/APIs/orders.apiServices";
+import { CreateOrderDto } from "@/types/Order.types";
 import Papa from "papaparse";
 import { toast } from "sonner";
-import { createOrder } from "@/services/APIs/orders.apiServices";
 
-const handleImportCSV = (
-  event,
-  fetchListData,
-  setWarningMsg,
-  setShowWarningMsg,
-  handleClose,
+// Function to handle the CSV import
+export const handleImportCSV = async (
+  file: File,
+  fetchListData: () => void,
 ) => {
-  if (event.target && event.target.files && event.target.files[0]) {
-    let file = event.target.files[0];
-    if (file.type !== "text/csv") {
-      setShowWarningMsg(true);
-      setWarningMsg("Wrong file format, only accept CSV!");
-      event.target.value = null; // Reset the file input value
-      return;
-    }
-    console.log(">>> check file imported: ", file);
-    Papa.parse(file, {
-      complete: async function (results) {
-        let rawCSV = results.data;
-
-        if (rawCSV.length > 0) {
-          if (rawCSV[0] && rawCSV[0].length === 7) {
-            if (
-              rawCSV[0][0] !== "order_date" ||
-              rawCSV[0][1] !== "start_time" ||
-              rawCSV[0][2] !== "start_point" ||
-              rawCSV[0][3] !== "end_point" ||
-              rawCSV[0][4] !== "load_name" ||
-              rawCSV[0][5] !== "load_amount" ||
-              rawCSV[0][6] !== "load_weight"
-            ) {
-              // toast.error("Wrong Header format in CSV file!");
-              setShowWarningMsg(true);
-              setWarningMsg("Wrong Header format in CSV file!");
-            } else {
-              let result = [];
-
-              rawCSV.map((item, index) => {
-                if (index > 0 && item.length === 7) {
-                  let obj = {};
-                  obj.order_date = item[0];
-                  obj.start_time = item[1];
-                  obj.start_point = item[2];
-                  obj.end_point = item[3];
-                  obj.load_name = item[4];
-                  obj.load_amount = item[5];
-                  obj.load_weight = item[6];
-
-                  result.push(obj);
-                }
-              });
-              console.log(">>> result: ", result);
-
-              const handleSubmitFileToAPI = async () => {
-                try {
-                  result.forEach(async (item) => {
-                    let data = await createOrder(item);
-                    if (data) {
-                      await fetchListData();
-                    }
-                  });
-                } catch (error) {
-                  setShowWarningMsg(true);
-                  setWarningMsg("Failed to import data!");
-                }
-              };
-
-              await handleSubmitFileToAPI();
-              toast.success("Imported!");
-              handleClose();
-              event.target.value = null; // Reset the file input value
-            }
-          } else {
-            setShowWarningMsg(true);
-            setWarningMsg("Wrong format in CSV file!");
-            toast.error("Wrong format in CSV file!");
-          }
+  // Parse the CSV file
+  Papa.parse(file, {
+    complete: async (result) => {
+      // Validate and map the CSV rows to the expected order format
+      const orders: CreateOrderDto[] = result.data.map((row: any) => {
+        // Validate each row
+        if (
+          row.order_id &&
+          row.order_date &&
+          row.start_time &&
+          row.start_point &&
+          row.end_point &&
+          row.load_name &&
+          row.load_amount &&
+          row.load_weight
+        ) {
+          return {
+            order_id: row.order_id,
+            order_date: row.order_date,
+            start_time: row.start_time,
+            start_point: row.start_point,
+            end_point: row.end_point,
+            load_name: row.load_name,
+            load_amount: row.load_amount,
+            load_weight: row.load_weight,
+          };
         } else {
-          setShowWarningMsg(true);
-          setWarningMsg("No data found in CSV file!");
-          toast.error("No data found in CSV file!");
+          throw new Error("Invalid CSV row data.");
         }
-      },
-    });
-  }
-};
+      });
 
-export default handleImportCSV;
+      try {
+        // Send the parsed data to the server
+        await createMultipleOrdersBatch(orders);
+        toast.success("Orders imported successfully");
+
+        // After importing, refresh the data displayed in the table
+        fetchListData();
+      } catch (error) {
+        console.error("Failed to import orders:", error);
+        toast.error("Failed to import orders. Please try again.");
+      }
+    },
+    error: (error) => {
+      console.error("CSV parsing error:", error);
+      toast.error("Failed to parse CSV. Please check the file format.");
+    },
+    header: true, // Assuming the first row contains headers
+  });
+};
