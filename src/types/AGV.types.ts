@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const CreateAGVZod = z.object({
+export const CreateAgvZod = z.object({
   agv_id: z.preprocess((agv_id) => parseInt(agv_id as string, 10), z.number()),
   guidance_type: z.string(),
   max_battery: z.preprocess(
@@ -17,16 +17,16 @@ export const CreateAGVZod = z.object({
   ),
 });
 
-export type CreateAGVDto = z.infer<typeof CreateAGVZod>;
+export type CreateAgvDto = z.infer<typeof CreateAgvZod>;
 
 export interface AGV {
-  agv_id?: number;
-  guidance_type?: string;
-  max_battery?: number;
-  max_load?: number;
-  max_speed?: number;
-  is_connected?: boolean;
-  is_active?: boolean;
-  is_busy?: boolean;
-  error?: string;
+  agv_id: number;
+  guidance_type: string;
+  max_battery: number;
+  max_load: number;
+  max_speed: number;
+  is_connected: boolean;
+  is_active: boolean;
+  is_busy: boolean;
+  error: string;
 }

@@ -22,7 +22,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { postCreateAGV } from "@/services/APIs/AGVs.apiServices";
+import { createAGV } from "@/services/APIs/AGVs.apiServices";
 import { agvIDs, guidanceTypes } from "../../../utils/arraysUsedOften";
 
 const formSchema = z.object({
@@ -34,11 +34,11 @@ const formSchema = z.object({
 });
 
 interface FormAGVsProps {
-  fetchListAGVs: () => Promise<void>;
+  fetchListData: () => Promise<void>;
 }
 
 export function FormAGVs(props: FormAGVsProps) {
-  const { fetchListAGVs } = props;
+  const { fetchListData } = props;
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -54,12 +54,12 @@ export function FormAGVs(props: FormAGVsProps) {
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    // Call the postCreateAGV function and pass the form values
-    const data = await postCreateAGV(values);
+    // Call the createAGV function and pass the form values
+    const data = await createAGV(values);
     if (data && !data.error) {
       console.log("Added AGV:", data);
       toast.success("Added AGV to team!");
-      await fetchListAGVs();
+      await fetchListData();
     } else if (data && data.error) {
       console.log("Failed to add AGV:", data.error);
       toast.error(data.error);

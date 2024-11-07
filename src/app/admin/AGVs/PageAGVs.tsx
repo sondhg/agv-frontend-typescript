@@ -1,27 +1,52 @@
 import { useEffect, useState } from "react";
-import { getAGVs } from "@/services/APIs/AGVs.apiServices";
-import { FormAGVs } from "./FormAGVs";
-import { TableAGVs } from "./TableAGVs";
+import { deleteAGV, getAGVs } from "@/services/APIs/AGVs.apiServices";
+import { DialogFormCreateAGVs } from "./DialogFormCreateAGVs";
+import { AGV } from "@/types/AGV.types";
+import { DataTable } from "@/components/ui/data-table";
+import { columns } from "./columnsTableAGVs";
+import { toast } from "sonner";
 
 export function PageAGVs() {
-  const [listAGVs, setListAGVs] = useState([]);
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+  const [listData, setListData] = useState<AGV[]>([]);
 
-  const fetchListAGVs = async () => {
+  const fetchListData = async () => {
     const data = await getAGVs();
     console.log(">>> data: ", data);
-    setListAGVs(data);
+    setListData(data);
+  };
+
+  const handleClickBtnDelete = async (order_id: number) => {
+    console.log(">>> delete order with id: ", order_id);
+
+    try {
+      await deleteAGV(order_id);
+      toast.success("Delete order successfully");
+      await fetchListData();
+    } catch (error) {
+      console.error("Failed to delete order:", error);
+      toast.error("Failed to delete order. Please try again.");
+    }
   };
 
   useEffect(() => {
-    fetchListAGVs();
+    fetchListData();
   }, []);
 
   return (
     <div>
       <div className="space-y-5">
         <h2 className="text-3xl font-bold">AGVs</h2>
-        <FormAGVs fetchListAGVs={fetchListAGVs} />
-        <TableAGVs listAGVs={listAGVs} fetchListAGVs={fetchListAGVs} />
+        <DialogFormCreateAGVs
+          isDialogOpen={isDialogOpen}
+          setIsDialogOpen={setIsDialogOpen}
+          fetchListData={fetchListData}
+        />
+        <DataTable
+          data={listData}
+          columns={columns(handleClickBtnDelete)}
+          filterSearchByColumn="agv_id"
+        />
       </div>
     </div>
   );

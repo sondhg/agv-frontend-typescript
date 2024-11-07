@@ -119,17 +119,17 @@ const formSchema = z.object({
     }),
 });
 
-interface FormOrderProps {
+interface FormCreateOrdersProps {
   isDialogOpen: boolean;
   setIsDialogOpen: (value: boolean) => void;
-  fetchListOrders: () => void;
+  fetchListData: () => void;
 }
 
-export function DialogCreateOrders({
+export function DialogFormCreateOrders({
   isDialogOpen,
   setIsDialogOpen,
-  fetchListOrders,
-}: FormOrderProps) {
+  fetchListData,
+}: FormCreateOrdersProps) {
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -173,7 +173,7 @@ export function DialogCreateOrders({
             </pre>
           ),
         });
-        fetchListOrders();
+        fetchListData();
         setIsDialogOpen(false);
       }
     } catch (error) {
@@ -389,7 +389,7 @@ export function DialogCreateOrders({
               />
             </div>
             <Button type="submit" disabled={!form.formState.isValid}>
-              Confirm
+              Submit
             </Button>
           </form>
         </Form>

@@ -4,7 +4,7 @@ import { createOrder } from "@/services/APIs/orders.apiServices";
 
 const handleImportCSV = (
   event,
-  fetchListOrders,
+  fetchListData,
   setWarningMsg,
   setShowWarningMsg,
   handleClose,
@@ -60,7 +60,7 @@ const handleImportCSV = (
                   result.forEach(async (item) => {
                     let data = await createOrder(item);
                     if (data) {
-                      await fetchListOrders();
+                      await fetchListData();
                     }
                   });
                 } catch (error) {

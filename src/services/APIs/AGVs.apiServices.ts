@@ -1,4 +1,4 @@
-import { AGV, CreateAGVDto } from "@/types/AGV.types";
+import { AGV, CreateAgvDto } from "@/types/AGV.types";
 import api from "@/utils/axiosCustomize";
 
 const AGVS_URL = "/agvs";
@@ -13,7 +13,7 @@ const getAGVs = async (): Promise<AGV[]> => {
   }
 };
 
-const postCreateAGV = async (agv: CreateAGVDto): Promise<AGV> => {
+const createAGV = async (agv: CreateAgvDto): Promise<AGV> => {
   try {
     const { data } = await api.post(`${AGVS_URL}/`, agv);
     return data;
@@ -32,4 +32,4 @@ const deleteAGV = async (agv_id: number): Promise<void> => {
   }
 };
 
-export { deleteAGV, getAGVs, postCreateAGV };
+export { deleteAGV, getAGVs, createAGV };

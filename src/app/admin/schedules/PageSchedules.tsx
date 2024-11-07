@@ -6,25 +6,25 @@ import { useEffect, useState } from "react";
 import { columns } from "./columnsTableSchedules";
 
 export function PageSchedules() {
-  const [listSchedules, setListSchedules] = useState<Schedule[]>([]);
+  const [listData, setListData] = useState<Schedule[]>([]);
 
-  const fetchListSchedules = async () => {
+  const fetchListData = async () => {
     const data = await getSchedules();
     console.log(">>> data: ", data);
-    setListSchedules(data);
+    setListData(data);
   };
 
   useEffect(() => {
-    fetchListSchedules();
+    fetchListData();
   }, []);
 
   return (
     <div>
       <div className="space-y-5">
         <h2 className="text-3xl font-bold">Schedules</h2>
-        <Button onClick={fetchListSchedules}>Fetch Schedules</Button>
+        <Button onClick={fetchListData}>Fetch Schedules</Button>
         <DataTable
-          data={listSchedules}
+          data={listData}
           columns={columns}
           filterSearchByColumn="order_date"
         />

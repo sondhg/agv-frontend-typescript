@@ -4,16 +4,16 @@ import { Order } from "@/types/Order.types";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { columns } from "./columnsTableOrders";
-import { DialogCreateOrders } from "./DialogCreateOrders";
+import { DialogFormCreateOrders } from "./DialogFormCreateOrders";
 
 export function PageOrders() {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
-  const [listOrders, setListOrders] = useState<Order[]>([]);
+  const [listData, setListData] = useState<Order[]>([]);
 
-  const fetchListOrders = async () => {
+  const fetchListData = async () => {
     const data = await getOrders();
-    setListOrders(data);
+    setListData(data);
   };
 
   const handleClickBtnDelete = async (order_id: number) => {
@@ -22,7 +22,7 @@ export function PageOrders() {
     try {
       await deleteOrder(order_id);
       toast.success("Delete order successfully");
-      await fetchListOrders();
+      await fetchListData();
     } catch (error) {
       console.error("Failed to delete order:", error);
       toast.error("Failed to delete order. Please try again.");
@@ -30,21 +30,21 @@ export function PageOrders() {
   };
 
   useEffect(() => {
-    fetchListOrders();
+    fetchListData();
   }, []);
 
   return (
     <>
       <div className="space-y-5">
         <h2 className="text-3xl font-bold">Orders</h2>
-        <DialogCreateOrders
+        <DialogFormCreateOrders
           isDialogOpen={isDialogOpen}
           setIsDialogOpen={setIsDialogOpen}
-          fetchListOrders={fetchListOrders}
+          fetchListData={fetchListData}
         />
 
         <DataTable
-          data={listOrders}
+          data={listData}
           columns={columns(handleClickBtnDelete)}
           filterSearchByColumn="order_date"
         />

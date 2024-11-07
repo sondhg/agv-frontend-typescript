@@ -17,7 +17,7 @@ import { toast } from "sonner";
 import { deleteAGV } from "@/services/APIs/AGVs.apiServices";
 
 interface TableAGVsProps {
-  listAGVs: Array<{
+  listData: Array<{
     agv_id: number;
     guidance_type: string;
     max_battery: number;
@@ -27,19 +27,19 @@ interface TableAGVsProps {
     is_busy: boolean;
     is_active: boolean;
   }>;
-  fetchListAGVs: () => Promise<void>;
+  fetchListData: () => Promise<void>;
 }
 
 export function TableAGVs(props: TableAGVsProps) {
-  const { listAGVs, fetchListAGVs } = props;
+  const { listData, fetchListData } = props;
 
-  // Sort listAGVs by agv_id in ascending order
-  const sortedListAGVs = [...listAGVs].sort((a, b) => a.agv_id - b.agv_id);
+  // Sort listData by agv_id in ascending order
+  const sortedListAGVs = [...listData].sort((a, b) => a.agv_id - b.agv_id);
 
   const handleDelete = async (agvId: number) => {
     try {
       await deleteAGV(agvId);
-      await fetchListAGVs();
+      await fetchListData();
       toast.warning("Deleted AGV from team!");
     } catch (error) {
       console.error("Failed to delete AGV:", error);
