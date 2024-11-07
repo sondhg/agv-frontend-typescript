@@ -28,7 +28,12 @@ function App() {
           </PersistGate>
         </Provider>
         {/* Toasters at top level */}
-        <ToasterSonner richColors theme="light" toastOptions={{}} />
+        <ToasterSonner
+          richColors
+          theme="light"
+          toastOptions={{}}
+          position="top-right"
+        />
         <ToasterToast />
       </ErrorBoundary>
     </>
