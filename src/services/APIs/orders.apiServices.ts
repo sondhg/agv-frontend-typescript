@@ -1,5 +1,5 @@
-import api from "@/utils/axiosCustomize";
 import { CreateOrderDto, Order } from "@/types/Order.types";
+import api from "@/utils/axiosCustomize";
 
 const ORDERS_URL = "/orders";
 
@@ -45,4 +45,22 @@ const deleteOrder = async (order_id: number) => {
   }
 };
 
-export { createOrder, deleteOrder, getOrders, updateOrder };
+const createMultipleOrdersBatch = async (
+  orders: CreateOrderDto[],
+): Promise<Order[]> => {
+  try {
+    const { data } = await api.post(`${ORDERS_URL}/`, { orders });
+    return data; // Assumes the backend responds with an array of created orders
+  } catch (error) {
+    console.error(">>> Error creating multiple orders:", error);
+    throw new Error(">>> Failed to create multiple orders");
+  }
+};
+
+export {
+  createMultipleOrdersBatch,
+  createOrder,
+  deleteOrder,
+  getOrders,
+  updateOrder,
+};
