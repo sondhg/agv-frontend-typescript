@@ -49,7 +49,7 @@ const createMultipleOrdersBatch = async (
   orders: CreateOrderDto[],
 ): Promise<Order[]> => {
   try {
-    const { data } = await api.post(`${ORDERS_URL}/`, { orders });
+    const { data } = await api.post(`${ORDERS_URL}/`, orders);
     return data; // Assumes the backend responds with an array of created orders
   } catch (error) {
     console.error(">>> Error creating multiple orders:", error);
