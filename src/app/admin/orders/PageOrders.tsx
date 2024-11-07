@@ -3,8 +3,8 @@ import { deleteOrder, getOrders } from "@/services/APIs/orders.apiServices";
 import { Order } from "@/types/Order.types";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { columns } from "./components/columnsTableOrders";
-import { DialogCreateOrders } from "./components/DialogCreateOrders";
+import { columns } from "./columnsTableOrders";
+import { DialogCreateOrders } from "./DialogCreateOrders";
 
 export function PageOrders() {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);

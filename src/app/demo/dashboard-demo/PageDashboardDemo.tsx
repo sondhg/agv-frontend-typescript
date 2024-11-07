@@ -1,4 +1,4 @@
-import { LineChartDemo } from "./components/LineChartDemo";
+import { LineChartDemo } from "./LineChartDemo";
 
 export function PageDashboardDemo() {
   return (

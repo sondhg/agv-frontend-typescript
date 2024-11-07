@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getAGVs } from "@/services/APIs/AGVs.apiServices";
-import { FormAGVs } from "./components/FormAGVs";
-import { TableAGVs } from "./components/TableAGVs";
+import { FormAGVs } from "./FormAGVs";
+import { TableAGVs } from "./TableAGVs";
 
 export function PageAGVs() {
   const [listAGVs, setListAGVs] = useState([]);
