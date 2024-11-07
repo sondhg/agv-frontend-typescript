@@ -4,7 +4,6 @@ import { Toaster as ToasterToast } from "@/components/ui/toaster";
 import { ErrorBoundary } from "react-error-boundary";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-import "./App.css";
 import { persistor, store } from "./redux/store";
 import { AllRoutes } from "./routes/AllRoutes";
 
