@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getAGVs } from "../../../services/apiServices";
+import { getAGVs } from "@/services/APIs/AGVs.apiServices";
 import { FormAGVs } from "./components/FormAGVs";
 import { TableAGVs } from "./components/TableAGVs";
 

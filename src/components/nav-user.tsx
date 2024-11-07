@@ -16,7 +16,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { doLogout } from "@/redux/userSlice";
-import { postLogout } from "@/services/apiServices";
+import { postLogout } from "@/services/APIs/auth.apiServices";
 import { ChevronsUpDown, LogOut } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";

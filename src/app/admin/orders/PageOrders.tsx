@@ -1,5 +1,5 @@
 import { DataTable } from "@/components/ui/data-table";
-import { deleteOrder, getOrders } from "@/services/apiServices";
+import { deleteOrder, getOrders } from "@/services/APIs/orders.apiServices";
 import { Order } from "@/types/Order.types";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";

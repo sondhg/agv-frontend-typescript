@@ -44,7 +44,7 @@ Use `Ctrl+P` in VSCode to search for these files.
 
 - API functions and configs
 
-  - `apiServices.tsx`
+  - Files in `services/APIs` folder
   - `axiosCustomize.tsx`
 
 - **WebSocket for live data** (testing with Binance API):
