@@ -1,6 +1,5 @@
 "use client";
 
-import { startOfDay } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -52,7 +51,8 @@ import {
 } from "@/utils/conversionUtils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CalendarIcon } from "@radix-ui/react-icons";
-import { format } from "date-fns";
+import { format, startOfDay } from "date-fns";
+import { CirclePlus } from "lucide-react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -204,7 +204,10 @@ export function DialogFormCreateOrders({
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
-        <Button variant="default">Create order</Button>
+        <Button variant="default">
+          <CirclePlus />
+          Create order
+        </Button>
       </DialogTrigger>
       <DialogContent className="max-h-[80vh] min-w-[80vw] overflow-y-auto">
         <DialogHeader>

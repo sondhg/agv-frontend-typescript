@@ -18,7 +18,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useToast } from "@/hooks/use-toast";
 import {
   Select,
   SelectContent,
@@ -26,13 +25,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useToast } from "@/hooks/use-toast";
 import { createAGV } from "@/services/APIs/AGVs.apiServices";
 import { agvIDs, guidanceTypes } from "@/utils/arraysUsedOften";
+import { convertStringToNumber } from "@/utils/conversionUtils";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { CirclePlus } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { CreateAgvDto } from "../../../types/AGV.types";
-import { convertStringToNumber } from "@/utils/conversionUtils";
 
 const formSchema = z.object({
   agv_id: z
@@ -121,7 +122,10 @@ export function DialogFormCreateAGVs({
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
-        <Button variant="default">Create AGV</Button>
+        <Button variant="default">
+          <CirclePlus />
+          Create AGV
+        </Button>
       </DialogTrigger>
       <DialogContent className="max-h-[80vh] min-w-[80vw] overflow-y-auto">
         <DialogHeader>

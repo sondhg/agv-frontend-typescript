@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
-import { deleteAGV, getAGVs } from "@/services/APIs/AGVs.apiServices";
-import { DialogFormCreateAGVs } from "./DialogFormCreateAGVs";
-import { AGV } from "@/types/AGV.types";
 import { DataTable } from "@/components/ui/data-table";
-import { columns } from "./columnsTableAGVs";
+import { deleteAGV, getAGVs } from "@/services/APIs/AGVs.apiServices";
+import { AGV } from "@/types/AGV.types";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { columns } from "./columnsTableAGVs";
+import { DialogFormCreateAGVs } from "./DialogFormCreateAGVs";
 
 export function PageAGVs() {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);

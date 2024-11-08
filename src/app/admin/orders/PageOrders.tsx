@@ -1,13 +1,14 @@
+import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 import { deleteOrder, getOrders } from "@/services/APIs/orders.apiServices";
+import { handleExportCSV } from "@/services/CSV/csvExportServices";
+import { handleImportCSV } from "@/services/CSV/csvImportServices";
 import { Order } from "@/types/Order.types";
-import { useEffect, useState } from "react";
+import { FileDown, FileUp } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { columns } from "./columnsTableOrders";
 import { DialogFormCreateOrders } from "./DialogFormCreateOrders";
-import { Button } from "@/components/ui/button";
-import { useRef } from "react";
-import { handleImportCSV } from "@/services/csvImportServices";
 
 export function PageOrders() {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
@@ -63,6 +64,7 @@ export function PageOrders() {
             variant={"secondary"}
             onClick={() => fileInputRef.current?.click()}
           >
+            <FileUp />
             Import CSV
           </Button>
           <input
@@ -72,6 +74,13 @@ export function PageOrders() {
             className="hidden"
             onChange={handleFileChange}
           />
+          <Button
+            variant={"secondary"}
+            onClick={() => handleExportCSV(listData)}
+          >
+            <FileDown />
+            Export CSV
+          </Button>
         </div>
 
         <DataTable
