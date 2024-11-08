@@ -9,6 +9,7 @@ import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { columns } from "./columnsTableOrders";
 import { DialogFormCreateOrders } from "./DialogFormCreateOrders";
+import { DialogInstructionsCSV } from "./DialogInstructionsCSV";
 
 export function PageOrders() {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
@@ -60,10 +61,7 @@ export function PageOrders() {
             setIsDialogOpen={setIsDialogOpen}
             fetchListData={fetchListData}
           />
-          <Button
-            variant={"secondary"}
-            onClick={() => fileInputRef.current?.click()}
-          >
+          <Button onClick={() => fileInputRef.current?.click()}>
             <FileUp />
             Import CSV
           </Button>
@@ -81,6 +79,7 @@ export function PageOrders() {
             <FileDown />
             Export CSV
           </Button>
+          <DialogInstructionsCSV />
         </div>
 
         <DataTable
