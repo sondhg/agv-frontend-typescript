@@ -51,14 +51,17 @@ export function LoginForm() {
 
     try {
       const data = await postLogin(loginInfo);
-      if (data && data.jwt) {
+      if (data && data.access_token) {
         dispatch(doLogin(data));
         navigate("/");
-        toast.success("Login successful");
+        toast.success(data.message);
       }
     } catch (error) {
-      toast.error(error.detail);
-      console.error("Login error:", error);
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("An unknown error occurred");
+      }
     } finally {
       setIsLoading(false);
     }

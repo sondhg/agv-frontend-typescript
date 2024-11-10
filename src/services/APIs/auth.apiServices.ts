@@ -17,8 +17,9 @@ const postLogin = async (loginInfo: CreateLoginDto): Promise<LoginResponse> => {
     const { data } = await api.post(LOGIN_URL, loginInfo);
     return data;
   } catch (error) {
-    console.error(">>> Error logging in:", error);
-    throw new Error(">>> Failed to log in");
+    const errorMessage = error.response?.data?.detail || "Failed to log in";
+    console.log(">>> Error logging in:", errorMessage);
+    throw new Error(errorMessage);
   }
 };
 

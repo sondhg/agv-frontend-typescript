@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface AccountState {
-  jwt: string;
+  access_token: string;
   refresh_token: string;
   name: string;
   email: string;
@@ -14,7 +14,7 @@ interface UserState {
 
 const initialState: UserState = {
   account: {
-    jwt: "",
+    access_token: "",
     refresh_token: "",
     name: "",
     email: "",
@@ -32,7 +32,7 @@ const userSlice = createSlice({
     },
     doLogout(state) {
       state.account = {
-        jwt: "",
+        access_token: "",
         refresh_token: "",
         name: "",
         email: "",

@@ -48,7 +48,7 @@ export function NavUser({
         await postLogout(logoutInfo);
       if (data && data.message) {
         dispatch(doLogout());
-        localStorage.removeItem("jwt");
+        localStorage.removeItem("access_token");
         navigate("/login");
         toast.success(data.message);
       } else {

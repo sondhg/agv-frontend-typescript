@@ -8,9 +8,11 @@ export const CreateLoginZod = z.object({
 export type CreateLoginDto = z.infer<typeof CreateLoginZod>;
 
 export interface LoginResponse {
+  message: string;
   email: string;
   name: string;
-  jwt: string;
+  access_token: string;
+  refresh_token: string;
 }
 
 export const CreateRegisterZod = z.object({

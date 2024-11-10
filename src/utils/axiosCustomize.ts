@@ -11,9 +11,9 @@ const api = axios.create({
 // Add a request interceptor
 api.interceptors.request.use(
   (config) => {
-    const jwt = store?.getState()?.user?.account?.jwt;
-    if (jwt) {
-      config.headers["Authorization"] = `Bearer ${jwt}`;
+    const access_token = store?.getState()?.user?.account?.access_token;
+    if (access_token) {
+      config.headers["Authorization"] = `Bearer ${access_token}`;
     }
     return config;
   },
