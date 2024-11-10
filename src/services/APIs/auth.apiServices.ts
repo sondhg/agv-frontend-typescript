@@ -8,9 +8,9 @@ import {
 } from "@/types/Auth.types";
 import api from "@/utils/axiosCustomize";
 
-const LOGIN_URL = "/login";
-const REGISTER_URL = "/register";
-const LOGOUT_URL = "/logout";
+const LOGIN_URL = "login";
+const REGISTER_URL = "register";
+const LOGOUT_URL = "logout";
 
 const postLogin = async (loginInfo: CreateLoginDto): Promise<LoginResponse> => {
   try {
