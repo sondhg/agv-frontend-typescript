@@ -30,8 +30,16 @@ const postRegister = async (
     const { data } = await api.post(REGISTER_URL, registerInfo);
     return data;
   } catch (error) {
-    console.error(">>> Error registering:", error);
-    throw new Error(">>> Failed to register");
+    console.log(">>> Full error object:", error);
+    const errorMessageRegisteredEmail = error.response?.data?.email;
+    const errorMessageRegisteredName = error.response?.data?.name;
+    let errorMessage: string = "Failed to register";
+    if (errorMessageRegisteredName) {
+      errorMessage = errorMessageRegisteredName;
+    } else if (errorMessageRegisteredEmail) {
+      errorMessage = errorMessageRegisteredEmail;
+    }
+    throw new Error(errorMessage);
   }
 };
 

@@ -77,8 +77,11 @@ export function RegisterForm() {
         toast.error("Registration failed");
       }
     } catch (error) {
-      toast.error("An error occurred during registration. Please try again.");
-      console.error("Registration error:", error);
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("An unknown error occurred");
+      }
     } finally {
       setIsLoading(false);
     }
