@@ -26,6 +26,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
 import { createOrder } from "@/services/APIs/orders.apiServices";
 import { CreateOrderDto } from "@/types/Order.types";
@@ -117,6 +118,7 @@ const formSchema = z.object({
     .refine((value) => isLoadWeightWithinRange(convertStringToNumber(value)), {
       message: `Number should be between ${MIN_LOAD_WEIGHT_VALUE} and ${MAX_LOAD_WEIGHT_VALUE}.`,
     }),
+  user_name: z.string(),
 });
 
 interface FormCreateOrdersProps {
@@ -131,6 +133,8 @@ export function DialogFormCreateOrders({
   fetchListData,
 }: FormCreateOrdersProps) {
   const { toast } = useToast();
+  const { account } = useAuth();
+
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -143,6 +147,7 @@ export function DialogFormCreateOrders({
       load_name: "",
       load_amount: "",
       load_weight: "",
+      user_name: account.name,
     },
     mode: "onChange",
   });
@@ -157,6 +162,7 @@ export function DialogFormCreateOrders({
       load_name: values.load_name.toLowerCase(),
       load_amount: convertStringToNumber(values.load_amount),
       load_weight: convertStringToNumber(values.load_weight),
+      user_name: values.user_name,
     };
 
     try {
@@ -385,6 +391,26 @@ export function DialogFormCreateOrders({
                     </FormControl>
                     <FormDescription>
                       Calculated total weight of load.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="user_name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Username</FormLabel>
+                    <FormControl>
+                      <Input
+                        readOnly
+                        placeholder={`Read-only field...`}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      User that sent this order.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>

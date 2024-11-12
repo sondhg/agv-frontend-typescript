@@ -92,6 +92,12 @@ export const columns = (
     },
   },
   {
+    accessorKey: "user_name",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Username" />
+    ),
+  },
+  {
     id: "actions",
     cell: ({ row }) => {
       const order = row.original;

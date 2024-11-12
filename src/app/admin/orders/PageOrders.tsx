@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 import { deleteOrder, getOrders } from "@/services/APIs/orders.apiServices";
 import { handleExportCSV } from "@/services/CSV/csvExportServices";
-import { handleImportCSV } from "@/services/CSV/csvImportServices";
+import { useCSVImport } from "@/services/CSV/useCSVImport
 import { Order } from "@/types/Order.types";
 import { FileDown, FileUp } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -13,10 +13,10 @@ import { DialogInstructionsCSV } from "./DialogInstructionsCSV";
 
 export function PageOrders() {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-
   const [listData, setListData] = useState<Order[]>([]);
-
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const { handleImportCSV } = useCSVImport();
 
   const fetchListData = async () => {
     const data = await getOrders();

@@ -28,6 +28,7 @@ export const CreateOrderZod = z.object({
     (order_date) => format(order_date as Date, "yyyy-MM-dd"),
     z.string(),
   ),
+  user_name: z.string(),
 });
 
 export type CreateOrderDto = z.infer<typeof CreateOrderZod>;
@@ -41,4 +42,5 @@ export interface Order {
   load_name: string;
   load_amount: number;
   load_weight: number;
+  user_name: string;
 }
