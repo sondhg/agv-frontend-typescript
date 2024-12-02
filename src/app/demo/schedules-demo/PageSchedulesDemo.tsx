@@ -1,5 +1,5 @@
 import { DataTable } from "@/components/ui/data-table";
-import { columns } from "./columnsTableSchedulesDemo";
+import { columnsTableSchedulesDemo } from "./columnsTableSchedulesDemo";
 
 export function PageSchedulesDemo() {
   const listData = [
@@ -191,7 +191,7 @@ export function PageSchedulesDemo() {
         <h2 className="text-3xl font-bold">Schedule Demo</h2>
         <DataTable
           data={listData}
-          columns={columns}
+          columns={columnsTableSchedulesDemo}
           filterSearchByColumn="order_date"
         />
       </div>

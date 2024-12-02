@@ -8,7 +8,7 @@ import { AGV } from "@/types/AGV.types";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 
-export const columns = (
+export const columnsTableAGVs = (
   handleClickBtnDelete: (agv_id: number) => void,
 ): ColumnDef<AGV>[] => [
   {

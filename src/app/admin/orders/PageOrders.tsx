@@ -7,7 +7,7 @@ import { Order } from "@/types/Order.types";
 import { FileDown, FileUp } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
-import { columns } from "./columnsTableOrders";
+import { columnsTableOrders } from "./columnsTableOrders";
 import { DialogFormCreateOrders } from "./DialogFormCreateOrders";
 import { DialogInstructionsCSV } from "./DialogInstructionsCSV";
 
@@ -84,7 +84,7 @@ export function PageOrders() {
 
         <DataTable
           data={listData}
-          columns={columns(handleClickBtnDelete)}
+          columns={columnsTableOrders(handleClickBtnDelete)}
           filterSearchByColumn="order_date"
         />
       </div>

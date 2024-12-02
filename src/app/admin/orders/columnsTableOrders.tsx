@@ -8,7 +8,7 @@ import { DataTableColumnHeader } from "@/components/ui/data-table-column-header"
 import { Order } from "@/types/Order.types";
 import { Trash2 } from "lucide-react";
 
-export const columns = (
+export const columnsTableOrders = (
   handleClickBtnDelete: (orderId: number) => void,
 ): ColumnDef<Order>[] => [
   {

@@ -3,7 +3,7 @@ import { deleteAGV, getAGVs } from "@/services/APIs/AGVs.apiServices";
 import { AGV } from "@/types/AGV.types";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { columns } from "./columnsTableAGVs";
+import { columnsTableAGVs } from "./columnsTableAGVs";
 import { DialogFormCreateAGVs } from "./DialogFormCreateAGVs";
 
 export function PageAGVs() {
@@ -44,7 +44,7 @@ export function PageAGVs() {
         />
         <DataTable
           data={listData}
-          columns={columns(handleClickBtnDelete)}
+          columns={columnsTableAGVs(handleClickBtnDelete)}
           filterSearchByColumn="agv_id"
         />
       </div>

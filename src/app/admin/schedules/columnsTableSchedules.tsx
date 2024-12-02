@@ -6,7 +6,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { DataTableColumnHeader } from "@/components/ui/data-table-column-header";
 import { Schedule } from "@/types/Schedule.types";
 
-export const columns: ColumnDef<Schedule>[] = [
+export const columnsTableSchedules: ColumnDef<Schedule>[] = [
   {
     id: "select",
     header: ({ table }) => (

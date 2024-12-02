@@ -3,7 +3,7 @@ import { DataTable } from "@/components/ui/data-table";
 import { getSchedules } from "@/services/APIs/schedules.apiServices";
 import { Schedule } from "@/types/Schedule.types";
 import { useEffect, useState } from "react";
-import { columns } from "./columnsTableSchedules";
+import { columnsTableSchedules } from "./columnsTableSchedules";
 
 export function PageSchedules() {
   const [listData, setListData] = useState<Schedule[]>([]);
@@ -25,7 +25,7 @@ export function PageSchedules() {
         <Button onClick={fetchListData}>Fetch Schedules</Button>
         <DataTable
           data={listData}
-          columns={columns}
+          columns={columnsTableSchedules}
           filterSearchByColumn="order_date"
         />
       </div>
