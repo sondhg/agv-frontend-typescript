@@ -1,9 +1,10 @@
-import { DataTable } from "@/components/ui/data-table";
-import { SpeedLineChart } from "./SpeedLineChart";
-import { useEffect, useState } from "react";
-import { WebSocketData } from "@/types/WebSocket.types";
-import { columnsTableDashboard } from "./columnsTableDashboard";
 import { Button } from "@/components/ui/button"; // Import a button component for toggling pause
+import { DataTable } from "@/components/ui/data-table";
+import { WebSocketData } from "@/types/WebSocket.types";
+import { Pause, Play } from "lucide-react";
+import { useEffect, useState } from "react";
+import { columnsTableDashboard } from "./columnsTableDashboard";
+import { SpeedLineChart } from "./SpeedLineChart";
 
 export function PageDashboard() {
   const [agvDataMap, setAgvDataMap] = useState<Record<number, WebSocketData>>(
@@ -42,7 +43,17 @@ export function PageDashboard() {
       <div className="space-y-5">
         <h2 className="text-3xl font-bold">Dashboard</h2>
         <Button variant="outline" onClick={() => setPaused((prev) => !prev)}>
-          {paused ? "Resume Updates" : "Pause Updates"}
+          {paused ? (
+            <>
+              <Play />
+              Resume Updates
+            </>
+          ) : (
+            <>
+              <Pause />
+              Pause Updates
+            </>
+          )}
         </Button>
         <SpeedLineChart agvDataArray={agvDataArray} />
         <DataTable
