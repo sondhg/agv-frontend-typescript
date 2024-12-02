@@ -8,71 +8,59 @@ import {
 import { useEffect, useState } from "react";
 import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
 
-export function SpeedLineChart() {
+interface SpeedLineChartProps {
+  agvDataArray: {
+    car_id: number;
+    agv_speed: number;
+    time_stamp: string;
+  }[];
+}
+
+export function SpeedLineChart({ agvDataArray }: SpeedLineChartProps) {
   const [chartData, setChartData] = useState<
     { timestamp: string; time: number; [key: string]: number | string }[]
   >([]);
   const [chartConfig, setChartConfig] = useState<ChartConfig>({});
 
   useEffect(() => {
-    const ws = new WebSocket("ws://localhost:8000/ws/data/");
+    if (agvDataArray.length === 0) return;
 
-    ws.onmessage = (event) => {
-      const data = JSON.parse(event.data);
+    // Dynamically build chart configuration
+    const newConfig: ChartConfig = {};
+    const newChartData = agvDataArray.map((agv) => {
+      const key = `agv${agv.car_id}`;
+      if (!newConfig[key]) {
+        newConfig[key] = {
+          label: `AGV ${agv.car_id}`,
+          color: `hsl(var(--chart-${agv.car_id % 12}))`, // Cycle colors for multiple AGVs
+        };
+      }
+      return {
+        timestamp: new Date(agv.time_stamp).toLocaleTimeString(),
+        time: new Date(agv.time_stamp).getTime(),
+        [key]: agv.agv_speed,
+      };
+    });
 
-      // Dynamically build chart configuration
-      const newConfig: ChartConfig = {};
-      const newChartData = data.agvs_array_data.map(
-        (agv: { time_stamp: string; car_id: number; agv_speed: number }) => {
-          const key = `agv${agv.car_id}`;
-          if (!newConfig[key]) {
-            newConfig[key] = {
-              label: `AGV ${agv.car_id}`,
-              color: `hsl(var(--chart-${agv.car_id % 12}))`, // Cycle colors for multiple AGVs
-            };
-          }
-          return {
-            timestamp: new Date(agv.time_stamp).toLocaleTimeString(),
-            time: new Date(agv.time_stamp).getTime(),
-            [key]: agv.agv_speed,
-          };
-        },
-      );
+    setChartConfig((prevConfig) => ({ ...prevConfig, ...newConfig }));
 
-      setChartConfig((prevConfig) => ({ ...prevConfig, ...newConfig }));
-
-      setChartData((prevData) => {
-        const mergedData = [...prevData];
-        newChartData.forEach(
-          (newDataPoint: {
-            timestamp: string;
-            time: number;
-            [key: string]: number | string;
-          }) => {
-            const existingDataPoint = mergedData.find(
-              (dataPoint) => dataPoint.timestamp === newDataPoint.timestamp,
-            );
-            if (existingDataPoint) {
-              Object.assign(existingDataPoint, newDataPoint);
-            } else {
-              mergedData.push(newDataPoint);
-            }
-          },
+    setChartData((prevData) => {
+      const mergedData = [...prevData];
+      newChartData.forEach((newDataPoint) => {
+        const existingDataPoint = mergedData.find(
+          (dataPoint) => dataPoint.timestamp === newDataPoint.timestamp,
         );
-
-        const now = Date.now();
-        const filteredData = mergedData.filter(
-          (dataPoint) => now - dataPoint.time <= 5000,
-        );
-
-        return filteredData;
+        if (existingDataPoint) {
+          Object.assign(existingDataPoint, newDataPoint);
+        } else {
+          mergedData.push(newDataPoint);
+        }
       });
-    };
 
-    return () => {
-      ws.close();
-    };
-  }, []);
+      const now = Date.now();
+      return mergedData.filter((dataPoint) => now - dataPoint.time <= 5000);
+    });
+  }, [agvDataArray]);
 
   return (
     <Card>
