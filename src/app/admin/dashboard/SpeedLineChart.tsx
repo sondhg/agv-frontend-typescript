@@ -24,31 +24,42 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export function SpeedLineChart() {
-  const [chartData, setChartData] = useState([]);
+  const [chartData, setChartData] = useState<
+    { timestamp: string; time: number; agv1?: number; agv2?: number }[]
+  >([]);
 
   useEffect(() => {
     const ws = new WebSocket("ws://localhost:8000/ws/data/");
 
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      const newChartData = data.agvs_array_data.map((agv) => ({
-        timestamp: new Date(agv.time_stamp).toLocaleTimeString(),
-        time: new Date(agv.time_stamp).getTime(),
-        [`agv${agv.car_id}`]: agv.agv_speed,
-      }));
+      const newChartData = data.agvs_array_data.map(
+        (agv: { time_stamp: string; car_id: number; agv_speed: number }) => ({
+          timestamp: new Date(agv.time_stamp).toLocaleTimeString(),
+          time: new Date(agv.time_stamp).getTime(),
+          [`agv${agv.car_id}`]: agv.agv_speed,
+        }),
+      );
 
       setChartData((prevData) => {
         const mergedData = [...prevData];
-        newChartData.forEach((newDataPoint) => {
-          const existingDataPoint = mergedData.find(
-            (dataPoint) => dataPoint.timestamp === newDataPoint.timestamp,
-          );
-          if (existingDataPoint) {
-            Object.assign(existingDataPoint, newDataPoint);
-          } else {
-            mergedData.push(newDataPoint);
-          }
-        });
+        newChartData.forEach(
+          (newDataPoint: {
+            timestamp: string;
+            time: number;
+            agv1?: number;
+            agv2?: number;
+          }) => {
+            const existingDataPoint = mergedData.find(
+              (dataPoint) => dataPoint.timestamp === newDataPoint.timestamp,
+            );
+            if (existingDataPoint) {
+              Object.assign(existingDataPoint, newDataPoint);
+            } else {
+              mergedData.push(newDataPoint);
+            }
+          },
+        );
 
         const now = Date.now();
         const filteredData = mergedData.filter(
