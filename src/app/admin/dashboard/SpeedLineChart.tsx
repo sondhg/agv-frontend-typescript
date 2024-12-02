@@ -77,7 +77,7 @@ export function SpeedLineChart({ agvDataArray }: SpeedLineChartProps) {
               right: 12,
             }}
           >
-            <CartesianGrid vertical={false} />
+            <CartesianGrid />
             <XAxis
               dataKey="timestamp"
               tickLine={false}
