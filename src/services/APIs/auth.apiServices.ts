@@ -7,6 +7,7 @@ import {
   RegisterResponse,
 } from "@/types/Auth.types";
 import api from "@/utils/axiosCustomize";
+import { AxiosError } from "axios";
 
 const LOGIN_URL = "login";
 const REGISTER_URL = "register";
@@ -17,7 +18,12 @@ const postLogin = async (loginInfo: CreateLoginDto): Promise<LoginResponse> => {
     const { data } = await api.post(LOGIN_URL, loginInfo);
     return data;
   } catch (error) {
-    const errorMessage = error.response?.data?.detail || "Failed to log in";
+    const err = error as AxiosError; // Type assertion
+    interface ErrorResponse {
+      detail?: string;
+    }
+    const errorData = err.response?.data as ErrorResponse;
+    const errorMessage = errorData?.detail || "Failed to log in";
     console.log(">>> Error logging in:", errorMessage);
     throw new Error(errorMessage);
   }
@@ -31,8 +37,14 @@ const postRegister = async (
     return data;
   } catch (error) {
     console.log(">>> Full error object:", error);
-    const errorMessageRegisteredEmail = error.response?.data?.email;
-    const errorMessageRegisteredName = error.response?.data?.name;
+    const err = error as AxiosError; // Type assertion
+    interface ErrorResponse {
+      email?: string;
+      name?: string;
+    }
+    const errorData = err.response?.data as ErrorResponse;
+    const errorMessageRegisteredEmail = errorData?.email;
+    const errorMessageRegisteredName = errorData?.name;
     let errorMessage: string = "Failed to register";
     if (errorMessageRegisteredName) {
       errorMessage = errorMessageRegisteredName;
@@ -56,3 +68,4 @@ const postLogout = async (
 };
 
 export { postLogin, postLogout, postRegister };
+
