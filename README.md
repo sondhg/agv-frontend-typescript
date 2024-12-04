@@ -11,27 +11,49 @@ cd agv-frontend-typescript
 
 ## Required installations
 
-1. **NodeJS**: [Download here](https://nodejs.org/en).
-2. **Dependency libraries**
-
-```bash
-npm i
-```
+- [NodeJS](https://nodejs.org/en).
 
 ## Run the app
 
 **IMPORTANT**: Since I can't use Hoang Anh's server yet, I wrote a backend Django server. Please use it, otherwise the app won't work.
 
-- **Run GUI**:
+### Run GUI with agv-frontend-typescript
+
+#### Method 1: Run manually
 
 ```bash
+npm i
 npm run dev
 o
 ```
 
 The command `o` means "open", it will redirect you to [http://localhost:5173](http://localhost:5173). Here you see the GUI.
 
-- **Run Django Server**: Clone and follow the README instructions in my [my-django-server](https://github.com/sondhg/my-django-server) repo to have a PostgreSQL database at port 5432 and a Django server at port 8000 like I do.
+#### Method 2: Using Docker
+
+- Download [Docker Desktop](https://www.docker.com/products/docker-desktop).
+- Open a terminal at directory of `agv-frontend-typescript`, then run:
+
+```bash
+docker build -t agv-frontend-typescript .
+docker run -p 5173:5173 agv-frontend-typescript
+```
+
+Then open [http://localhost:5173](http://localhost:5173) in your browser. If you wanna stop the Docker container, run:
+
+```bash
+docker ps
+```
+
+to get the container ID, then put it in place of `<container_id>` in this command:
+
+```bash
+docker stop <container_id>
+```
+
+### Run my-django-server
+
+Clone and follow the README instructions in my [my-django-server](https://github.com/sondhg/my-django-server) repo to have a PostgreSQL database at port 5432 and a Django server at port 8000 like I do.
 
 ## Using the GUI
 
