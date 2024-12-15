@@ -29,27 +29,19 @@ o
 
 The command `o` means "open", it will redirect you to [http://localhost:5173](http://localhost:5173). Here you see the GUI.
 
-#### Method 2: Using Docker
+#### Method 2: Use Docker
 
 - Download [Docker Desktop](https://www.docker.com/products/docker-desktop).
-- Open a terminal at directory of `agv-frontend-typescript`, then run:
+- Open Docker Desktop. Make sure it's running.
+- Open a terminal in the project directory `agv-frontend-typescript`, then run:
 
 ```bash
-docker build -t agv-frontend-typescript .
-docker run -p 5173:5173 agv-frontend-typescript
+docker-compose up --build
 ```
 
-Then open [http://localhost:5173](http://localhost:5173) in your browser. If you wanna stop the Docker container, run:
+- Open your browser and navigate to http://localhost:5173 to see the GUI.
 
-```bash
-docker ps
-```
-
-to get the container ID, then put it in place of `<container_id>` in this command:
-
-```bash
-docker stop <container_id>
-```
+- To stop the GUI, press `Ctrl+C`, then press `q` in the terminal you used to run docker-compose.
 
 ### Run my-django-server
 
