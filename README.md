@@ -29,6 +29,14 @@ o
 
 The command `o` means "open", it will redirect you to [http://localhost:5173](http://localhost:5173). Here you see the GUI.
 
+If you wanna stop the GUI, press `Ctrl+C` or `q` in the terminal.
+
+If you wanna run the GUI again later, you just have to run
+
+```bash
+npm run dev
+```
+
 #### Method 2: Use Docker
 
 - Download [Docker Desktop](https://www.docker.com/products/docker-desktop).
@@ -42,6 +50,12 @@ docker-compose up --build
 - Open your browser and navigate to http://localhost:5173 to see the GUI.
 
 - To stop the GUI, press `Ctrl+C`, then press `q` in the terminal you used to run docker-compose.
+
+- If you wanna run the GUI again later, you just have to run
+
+```bash
+docker-compose up
+```
 
 ### Run my-django-server
 
