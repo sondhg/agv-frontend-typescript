@@ -3,7 +3,7 @@ import { DataTable } from "@/components/ui/data-table";
 import {
   createSchedule,
   getSchedules,
-} from "@/services/APIs/schedules.apiServices";
+} from "@/services/APIs/schedulesAPI";
 import { Schedule } from "@/types/Schedule.types";
 import { CalendarPlus } from "lucide-react";
 import { useEffect, useState } from "react";

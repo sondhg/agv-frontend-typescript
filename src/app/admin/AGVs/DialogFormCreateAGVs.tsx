@@ -26,7 +26,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { createAGV } from "@/services/APIs/AGVs.apiServices";
+import { createAGV } from "@/services/APIs/agvAPI";
 import { agvIDs, guidanceTypes } from "@/utils/arraysUsedOften";
 import { convertStringToNumber } from "@/utils/conversionUtils";
 import { zodResolver } from "@hookform/resolvers/zod";

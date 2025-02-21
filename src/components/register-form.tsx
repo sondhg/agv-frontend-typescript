@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { postRegister } from "@/services/APIs/auth.apiServices"; // Make sure this function is defined
+import { postRegister } from "@/services/APIs/authAPI"; // Make sure this function is defined
 import { useRef, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "sonner";

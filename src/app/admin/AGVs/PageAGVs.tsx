@@ -1,5 +1,5 @@
 import { DataTable } from "@/components/ui/data-table";
-import { deleteAGV, getAGVs } from "@/services/APIs/AGVs.apiServices";
+import { deleteAGV, getAGVs } from "@/services/APIs/agvAPI";
 import { AGV } from "@/types/AGV.types";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";

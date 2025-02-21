@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { AppDispatch } from "@/redux/store";
 import { doLogin } from "@/redux/userSlice";
-import { postLogin } from "@/services/APIs/auth.apiServices";
+import { postLogin } from "@/services/APIs/authAPI";
 import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";

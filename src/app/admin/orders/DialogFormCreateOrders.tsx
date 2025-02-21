@@ -29,7 +29,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
-import { createOrder } from "@/services/APIs/orders.apiServices";
+import { createOrder } from "@/services/APIs/ordersAPI";
 import { CreateOrderDto } from "@/types/Order.types";
 import { loadNames, loadNamesEnum } from "@/utils/arraysUsedOften";
 import {

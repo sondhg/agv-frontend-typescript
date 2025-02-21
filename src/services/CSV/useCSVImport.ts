@@ -1,5 +1,5 @@
 import { useAuth } from "@/hooks/useAuth";
-import { createMultipleOrdersBatch } from "@/services/APIs/orders.apiServices";
+import { createMultipleOrdersBatch } from "@/services/APIs/ordersAPI";
 import { CreateOrderDto } from "@/types/Order.types";
 import Papa from "papaparse";
 import { toast } from "sonner";
